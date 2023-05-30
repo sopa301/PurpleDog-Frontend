@@ -14,13 +14,16 @@ export default function Banner(props) {
   return (
     <Flex 
       size="2xl"
-      color="#CB6CE6"
       backgroundColor="#0CC0DF"
       paddingX="10px"
       paddingY="15px"
       textColor="white"
     >
-      <Heading font="sans-serif">
+      <Heading 
+        font="sans-serif" 
+        // color="#CB6CE6"
+        color="black"  
+      >
         The Purple Dog Project
       </Heading>
       <Spacer/>

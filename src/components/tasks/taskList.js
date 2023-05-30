@@ -1,34 +1,39 @@
 import { useState } from "react";
 import { Task } from "../../Objects";
 import {
-    ListItem,
-    List,
-    Button,
-    Box,
-    useDisclosure,
-    Text,
-    Card,
-    CardBody,
+  AccordionItem,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
+  Button,
+  Box,
+  useDisclosure,
+  Text,
   } from '@chakra-ui/react';
 import {Interval} from "luxon";
 import TaskMenu from './taskMenu';
 
 export default function TaskList(props) {
+  // Add menu state controllers
   const addDisclosure = useDisclosure();
   const isOpenAdd = addDisclosure.isOpen;
   const onOpenAdd = addDisclosure.onOpen;
   const onCloseAdd = addDisclosure.onClose;
+  // Edit menu state controllers
   const editDisclosure = useDisclosure();
   const isOpenEdit = editDisclosure.isOpen;
   const onOpenEdit = editDisclosure.onOpen; 
   const onCloseEdit = editDisclosure.onClose;
-  const [activeTask, setActiveTask] = useState();
   const [activeStart, setActiveStart] = useState();
   const [activeEnd, setActiveEnd] = useState();
+  // Task selector state controller
+  const [activeTask, setActiveTask] = useState();
+
 
   const tasks = props.array.map(mapTasks);
 
-  function mapTasks(task) {
+  function mapTasks(task, index, array) {
     function handleEdit() {
       setActiveStart(task.interval.start);
       setActiveEnd(task.interval.end);
@@ -36,20 +41,31 @@ export default function TaskList(props) {
       onOpenEdit();
     }
     function handleDelete() {
-      props.setArray(props.array.filter((value) => value !== task));
+      props.setArray([...props.array.slice(0, index),
+        ...props.array.slice(index + 1, props.array.length)]);
     }
-    return <ListItem key={task} padding="5px">
-        <Card>
-          <CardBody>
-            <Text>Task: {task.name}</Text>
-            <Text>Pax: {task.pax}</Text>
-            <Text>Interval: {task.getInterval()}</Text>
-            <Text>Time Needed: {task.getTimeNeeded()} hours</Text>
-            <Button onClick={handleEdit}>Edit</Button> 
-            <Button onClick={handleDelete}>Delete</Button> 
-          </CardBody>
-        </Card>
-      </ListItem>;
+    function handleMove() {
+      props.handleMove(task, index, props.setArray, props.array);
+    }
+
+    return (<AccordionItem key={index}>
+      <h2>
+        <AccordionButton>
+          <Box as="span" flex='1' textAlign='left'>
+            {task.name}
+          </Box>
+          <AccordionIcon />
+        </AccordionButton>
+      </h2>
+      <AccordionPanel pb={4}>
+        <Text>Pax: {task.pax}</Text>
+        <Text>Interval: {task.getInterval()}</Text>
+        <Text>Time Needed: {task.getTimeNeeded()} hours</Text>
+        <Button onClick={handleEdit}>Edit</Button> 
+        <Button onClick={handleMove}>Move</Button>
+        <Button onClick={handleDelete}>Delete</Button> 
+      </AccordionPanel>
+    </AccordionItem>);
   }
 
   function onAddTask() {
@@ -66,7 +82,7 @@ export default function TaskList(props) {
         values.pax, 
         interval)]);
   }
-  function editTaskOnSubmit (values, actions) {
+  function editTaskOnSubmit(values, actions) {
     onCloseEdit();
     const index = props.array.indexOf(activeTask);
     const interval = Interval.fromDateTimes(activeStart, activeEnd);
@@ -79,9 +95,9 @@ export default function TaskList(props) {
   return (
       <div>
           <Box>
-              <List>
-                  {tasks}
-              </List>
+              <Accordion allowMultiple="true" defaultIndex={[0]}>
+                {tasks}
+              </Accordion>  
               <br />
               <Button onClick={onAddTask}>Add Task</Button>
               <TaskMenu 
