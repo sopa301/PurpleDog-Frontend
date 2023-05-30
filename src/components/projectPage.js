@@ -18,6 +18,7 @@ import MoveMenu from './tasks/moveMenu';
 export default function ProjectPage(props) {
   const projJSON = localStorage.getItem("proj");
 
+  // This needs to be rewritten
   function getData() {
     if (projJSON) {
       return ProjectJSONable.fromJSONable(JSON.parse(projJSON));

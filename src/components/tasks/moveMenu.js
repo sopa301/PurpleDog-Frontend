@@ -63,7 +63,7 @@ export default function MoveMenu(props) {
             props.modalOnClose();
         }
         return (
-            <ListItem>
+            <ListItem key={index}>
                 <Flex>
                     {person.name}
                     <Spacer />
