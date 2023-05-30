@@ -8,10 +8,12 @@ import {
   Button,
   Heading,
   Box,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { Project, ProjectJSONable } from '../Objects';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import MoveMenu from './tasks/moveMenu';
 
 export default function ProjectPage(props) {
   const projJSON = localStorage.getItem("proj");
@@ -53,7 +55,8 @@ export default function ProjectPage(props) {
               duration: 9000,
               isClosable: true,
             });
-            handleBack();
+            back();
+            return new Project([], []);
           }
         }
       })
@@ -108,6 +111,22 @@ export default function ProjectPage(props) {
   let data = getData() ;
   const [peopleArray, setPeopleArray] = useState(data.people);
   const [taskArray, setTaskArray] = useState(data.tasks);
+  // Move menu state controllers
+  const moveDisclosure = useDisclosure();
+  const isOpenMove = moveDisclosure.isOpen;
+  const onOpenMove = moveDisclosure.onOpen;
+  const onCloseMove = moveDisclosure.onClose;
+  const [taskPack, setTaskPack] = useState();
+
+  function handleMove(task, taskIndex, setOriginalArray, originalArray) {
+    onOpenMove();
+    setTaskPack({
+      "task": task, 
+      "taskIndex": taskIndex, 
+      "setOriginalArray": setOriginalArray, 
+      "originalArray": originalArray,
+    });
+  }
 
   useEffect(() => {
     localStorage.setItem("proj", JSON.stringify(new Project(peopleArray, taskArray).toJSONable()));
@@ -118,13 +137,34 @@ export default function ProjectPage(props) {
       <Grid templateColumns='repeat(2, 1fr)' gap={1}>
         <GridItem>
           <Heading>Unassigned Tasks</Heading>
-          <TaskList array={taskArray} setArray={setTaskArray}/></GridItem>
-        <GridItem><PeopleList array={peopleArray} setArray={setPeopleArray}/></GridItem>
+          <TaskList 
+            array={taskArray} 
+            setArray={setTaskArray}
+            handleMove={handleMove}
+          />
+        </GridItem>
+        <GridItem>
+          <PeopleList 
+            array={peopleArray} 
+            setArray={setPeopleArray}
+            handleMove={handleMove}
+          />
+        </GridItem>
       </Grid>
       <br></br>
       <Button onClick={() => {}}>Run</Button>
       <Button onClick={saveProj}>Save</Button>
       <Button onClick={handleBack}>Back</Button>
+      <MoveMenu 
+        peopleArray={peopleArray}
+        taskArray={taskArray}
+        modalIsOpen={isOpenMove}
+        modalOnOpen={onOpenMove}
+        modalOnClose={onCloseMove}
+        taskPack={taskPack}
+        setPeopleArray={setPeopleArray}
+        setTaskArray={setTaskArray}
+      />
     </Box>
   );
 }

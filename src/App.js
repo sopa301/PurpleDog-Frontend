@@ -11,21 +11,12 @@ export default function App(props) {
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem("user"));
   const [projectArray, setProjectArray] = useState([]);
 
-  // Haven't found a use case for the headers yet
-  // function setAuthToken(token) {
-  //   if (token) {
-  //     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  //   } else delete axios.defaults.headers.common["Authorization"];
-  // }
   function validateToken(token) {
     if (token) {
       return axios
         .post(process.env.REACT_APP_API_URL + "/validate", {
           username: loggedIn,
           token: token,
-        })
-        .then(function (response) {
-          // setAuthToken(token);
         })
         .catch(function (error) {
           props.toast({

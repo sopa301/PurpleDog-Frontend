@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Person } from "../../Objects";
 import {
-  ListItem,
-  List,
+  Flex,
+  Spacer,
+  AccordionItem,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
   Button,
   Box,
   Heading,
   useDisclosure,
-  Text,
-  Card,
-  CardBody,
   } from '@chakra-ui/react';
 import PersonMenu from "./personMenu";
 import TaskList from "../tasks/taskList";
@@ -30,33 +32,46 @@ export default function PeopleList(props) {
 
   const people = props.array.map(mapPeople);
 
-  function mapPeople(person) {
+  function mapPeople(person, index, array) {
     function handleEdit() {
       setActiveIntervalArray(person.avails);
       setActivePerson(person); 
       onOpenEdit();
     }
     function handleDelete() {
-      props.setArray(props.array.filter((value) => value !== person));
+      props.setArray([...props.array.slice(0, index),
+        ...props.array.slice(index + 1, props.array.length)]);
     }
     function setTaskArray(newArray) {
-      const index = props.array.indexOf(person);
       const editedPerson = new Person(person.name, person.avails, newArray);
       props.setArray([...props.array.slice(0, index),
         editedPerson,
         ...props.array.slice(index + 1, props.array.length)])
     }
-    return (<ListItem key={person} padding="5px">
-      <Card>
-        <CardBody>
-          <Text>Name: {person.name}</Text>
-          <Button onClick={handleEdit}>Edit Person</Button> 
-          <Button onClick={handleDelete}>Delete Person</Button> 
-          <Text>Assigned Tasks:</Text>
-          <TaskList array={person.tasks} setArray={setTaskArray}/>
-        </CardBody>
-      </Card>
-    </ListItem>);
+
+    return (<AccordionItem backgroundColor="#FFEBC3" color="#703A44" key={index}>
+      <h2>
+        <AccordionButton>
+          <Box as="span" flex='1' textAlign='left'>
+            <b>{person.name}</b>
+          </Box>
+          <AccordionIcon />
+        </AccordionButton>
+      </h2>
+      <AccordionPanel pb={4}>
+      <Flex>
+        Assigned Tasks:
+        <Spacer />
+        <Button onClick={handleEdit}>Edit Person</Button> 
+        <Button onClick={handleDelete}>Delete Person</Button> 
+      </Flex>
+        <TaskList 
+          array={person.tasks} 
+          setArray={setTaskArray} 
+          handleMove={props.handleMove}
+        />
+      </AccordionPanel>
+    </AccordionItem>);
   }
 
   function onAddPerson() {
@@ -83,9 +98,9 @@ export default function PeopleList(props) {
     <div>
         <Heading>People</Heading>
         <Box>
-            <List>
+            <Accordion allowMultiple="true" defaultIndex={[0]}>
                 {people}
-            </List>
+            </Accordion>
             <br />
             <Button onClick={onAddPerson}>Add Person</Button>
             <PersonMenu 
