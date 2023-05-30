@@ -31,6 +31,7 @@ export default function MoveMenu(props) {
                 props.modalOnClose();
                 return;
             }
+            // delete task from old place
             const newArray = [...originalArray.slice(0, taskIndex),
                 ...originalArray.slice(taskIndex + 1, originalArray.length)]
             setOriginalArray(newArray);
@@ -49,7 +50,6 @@ export default function MoveMenu(props) {
                     new Person(originalPerson.name, originalPerson.avails, newArray),
                     ...props.peopleArray.slice(originalIndex + 1, props.peopleArray.length)];
             }
-
             // add task to new place
             if (person.name === "Unassigned" && person.unassigned === "true") {
                 props.setTaskArray([...props.taskArray, task]);
