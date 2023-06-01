@@ -22,14 +22,14 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const {ToastContainer, toast} = createStandaloneToast();
 root.render(
   <ChakraProvider theme={chakraTheme} resetCSS>
-    {/* <React.StrictMode> */}
+    <React.StrictMode>
       <MaterialThemeProvider theme={{ [THEME_ID]: materialTheme }}>
         <LocalizationProvider dateAdapter={AdapterLuxon}>
           <App toast={toast}/>
           <ToastContainer />
         </LocalizationProvider>
       </MaterialThemeProvider>
-    {/* </React.StrictMode> */}
+    </React.StrictMode>
   </ChakraProvider>
 );
 
