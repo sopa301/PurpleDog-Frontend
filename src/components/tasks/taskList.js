@@ -29,8 +29,7 @@ export default function TaskList(props) {
   const [activeEnd, setActiveEnd] = useState();
   // Task selector state controller
   const [activeTask, setActiveTask] = useState();
-
-
+  
   const tasks = props.array.map(mapTasks);
 
   function mapTasks(task, index, array) {

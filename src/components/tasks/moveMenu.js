@@ -18,13 +18,9 @@ export default function MoveMenu(props) {
     const options = createOptions(props.peopleArray);
     const people = options.map(mapPeople);
 
-    function createOptions(array) {
-        return [...array, {"name": "Unassigned", "unassigned":"true"}];
-    }
-    function mapPeople(person, index, array) {
+    function mapPeople(person, index) {
         function moveTask() {
             const {task, taskIndex, setOriginalArray, originalArray} = props.taskPack;
-            let newPeopleArray = props.peopleArray;
             // check for same place
             if ((originalArray === props.taskArray && person.unassigned === "true") 
                 || originalArray === person.tasks) {
@@ -32,33 +28,18 @@ export default function MoveMenu(props) {
                 return;
             }
             // delete task from old place
-            const newArray = [...originalArray.slice(0, taskIndex),
-                ...originalArray.slice(taskIndex + 1, originalArray.length)]
-            setOriginalArray(newArray);
-            // if the unassigned task array is neither a source or destination array,
-            // we need to update the people array immediately because setState 
-            // only updates at rerender
-            if (person.tasks !== props.taskArray && originalArray !== props.taskArray) {
-                let originalPerson;
-                for (let pax of props.peopleArray) {
-                    if (pax.tasks === originalArray) {
-                        originalPerson = pax;
-                    }
-                }
-                let originalIndex = props.peopleArray.indexOf(originalPerson);
-                newPeopleArray = [...props.peopleArray.slice(0, originalIndex),
-                    new Person(originalPerson.name, originalPerson.avails, newArray),
-                    ...props.peopleArray.slice(originalIndex + 1, props.peopleArray.length)];
-            }
+            setOriginalArray([...originalArray.slice(0, taskIndex), 
+                ...originalArray.slice(taskIndex + 1, originalArray.length)]);
+
             // add task to new place
             if (person.name === "Unassigned" && person.unassigned === "true") {
-                props.setTaskArray([...props.taskArray, task]);
+                props.setTaskArray(ta => [...ta, task]);
             } else {
                 const newTaskArray = [...person.tasks, task];
                 const editedPerson = new Person(person.name, person.avails, newTaskArray);
-                props.setPeopleArray([...newPeopleArray.slice(0, index),
+                props.setPeopleArray(pa => [...pa.slice(0, index),
                     editedPerson,
-                    ...newPeopleArray.slice(index + 1, newPeopleArray.length)]);
+                    ...pa.slice(index + 1, pa.length)]);
             }
             props.modalOnClose();
         }
@@ -88,4 +69,8 @@ export default function MoveMenu(props) {
         </ModalContent>
       </Modal>
     </Fragment>);
+}
+
+function createOptions(array) {
+    return [...array, {"name": "Unassigned", "unassigned":"true"}];
 }
