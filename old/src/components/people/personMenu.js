@@ -13,10 +13,9 @@ import {
     ModalCloseButton,
   } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
-import { DateTimeField } from "@mui/x-date-pickers";
-import { Interval } from "luxon";
+import AvailList from "./availList";
 
-export default function TaskMenu(props) {
+export default function PersonMenu(props) {
     function validateField(value) {
         let error;
         if (!value) {
@@ -24,13 +23,11 @@ export default function TaskMenu(props) {
         } 
         return error;
     }
-    function validateInterval(value) {
+    function validateArray(value) {
         let error;
-        if (!props.activeStart || !props.activeEnd) {
-          error = 'Field is required';
-        } else if (!Interval.fromDateTimes(props.activeStart, props.activeEnd).isValid) {
-          error = 'Interval is invalid';
-        }
+        if (props.activeIntervalArray.length < 1) {
+          error = 'At least one interval is required';
+        } 
         return error;
     }
 
@@ -57,24 +54,13 @@ export default function TaskMenu(props) {
                     </FormControl>
                     )}
                 </Field>
-                <Field name='pax' validate={validateField}>
+                <Field name='avails' validate={validateArray}>
                     {({ field, form }) => (
-                    <FormControl isInvalid={form.errors.pax && form.touched.pax}>
-                        <FormLabel>Pax</FormLabel>
-                        <Input {...field} placeholder='' />
-                        <FormErrorMessage>{form.errors.pax}</FormErrorMessage>
+                    <FormControl isInvalid={form.errors.avails && form.touched.avails}>
+                        <FormLabel>Availabilities</FormLabel>
+                        <AvailList array={props.activeIntervalArray} setArray={props.setActiveIntervalArray}/>
+                        <FormErrorMessage>{form.errors.avails}</FormErrorMessage>
                     </FormControl>
-                    )}
-                </Field>
-                <Field name='interval' validate={validateInterval}>
-                    {({ field, form }) => (
-                        <FormControl isInvalid={form.errors.interval && form.touched.interval}>
-                            <FormLabel>Interval</FormLabel>
-                            <DateTimeField onChange={props.setActiveStart} value={props.activeStart} label='Start Time'/>
-                            <div><br/></div>
-                            <DateTimeField onChange={props.setActiveEnd} value={props.activeEnd} label='End Time'/>
-                            <FormErrorMessage>{form.errors.interval}</FormErrorMessage>
-                        </FormControl>
                     )}
                 </Field>
                 <Button

@@ -22,7 +22,7 @@ export default function Banner(props) {
       <Heading 
         font="sans-serif" 
         // color="#CB6CE6"
-        color="black"  
+        // color="black"  
       >
         The Purple Dog Project
       </Heading>
