@@ -11,21 +11,28 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { Project, ProjectJSONable } from '../../Objects';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import axios from 'axios';
 import MoveMenu from '../tasks/moveMenu';
 import { redirect, useLoaderData, useNavigate, useOutletContext } from 'react-router-dom';
+import CButton from '../custom/cButton';
 
 
 export default function ProjectPage(props) {
   const navigate = useNavigate();
   const {projData, projName} = useLoaderData();
   const [user] = useOutletContext();
+  const [peopleArray, setPeopleArray] = useState(projData.people);
+  const [taskArray, setTaskArray] = useState(projData.tasks);
+  // Move menu state controllers
+  const {isOpen, onOpen, onClose} = useDisclosure();
+  // Move menu callback variables
+  const [taskPack, setTaskPack] = useState();
 
   function back() {
     navigate("../");
   }
-  function handleBack() {
+  async function handleBack() {
     saveProj().then(success => success ? back() : "");
   }
   async function saveProj() {
@@ -56,17 +63,8 @@ export default function ProjectPage(props) {
     });
   }
 
-  const [peopleArray, setPeopleArray] = useState(projData.people);
-  const [taskArray, setTaskArray] = useState(projData.tasks);
-  // Move menu state controllers
-  const moveDisclosure = useDisclosure();
-  const isOpenMove = moveDisclosure.isOpen;
-  const onOpenMove = moveDisclosure.onOpen;
-  const onCloseMove = moveDisclosure.onClose;
-  const [taskPack, setTaskPack] = useState();
-
   function handleMove(task, taskIndex, setOriginalArray, originalArray) {
-    onOpenMove();
+    onOpen();
     setTaskPack({
       "task": task, 
       "taskIndex": taskIndex, 
@@ -99,15 +97,15 @@ export default function ProjectPage(props) {
         </GridItem>
       </Grid>
       <br></br>
-      <Button onClick={() => {}}>Run</Button>
-      <Button onClick={saveProj}>Save</Button>
-      <Button onClick={handleBack}>Back</Button>
+      <Button>Run</Button>
+      <CButton content="Save" onClick={saveProj}/>
+      <CButton content="Back" onClick={handleBack}/>
       <MoveMenu 
         peopleArray={peopleArray}
         taskArray={taskArray}
-        modalIsOpen={isOpenMove}
-        modalOnOpen={onOpenMove}
-        modalOnClose={onCloseMove}
+        modalIsOpen={isOpen}
+        modalOnOpen={onOpen}
+        modalOnClose={onClose}
         taskPack={taskPack}
         setPeopleArray={setPeopleArray}
         setTaskArray={setTaskArray}
