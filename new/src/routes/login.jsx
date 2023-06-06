@@ -5,7 +5,7 @@ import {
     Image,
     Flex,
   } from "@chakra-ui/react";
-import Banner from "../components/banner";
+import Banner from "../components/main/banner";
 import { Outlet } from "react-router-dom";
 
 export default function Login() {

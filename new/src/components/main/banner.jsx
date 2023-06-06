@@ -1,5 +1,6 @@
 import { Box, Button, Heading, Spacer, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import Nav from "./nav";
 
 export default function Banner(props) {
   const navigate = useNavigate();
@@ -25,10 +26,11 @@ export default function Banner(props) {
       <Heading 
         font="sans-serif" 
         // color="#CB6CE6"
-        // color="black"  
+        // color="black"
       >
         The Purple Dog Project
       </Heading>
+      {props.loggedIn ? <Nav /> : <Box/>}
       <Spacer/>
       {props.loggedIn ? <Button onClick={handleLogout} position="right" color="black"> Logout</Button> : <Box/>}
     </Flex>

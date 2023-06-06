@@ -14,7 +14,7 @@ import {
   useDisclosure,
   } from '@chakra-ui/react';
 import PersonMenu from "./personMenu";
-import TaskList from "../tasks/taskList";
+import TaskList from "./taskList";
 
 export default function PeopleList(props) {
   const addDisclosure = useDisclosure();
