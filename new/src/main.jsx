@@ -28,6 +28,7 @@ import ProjectPage, {loader as projLoader} from './components/projects/projectPa
 import Profile from './routes/profile';
 import Home from './routes/home';
 import ErrorLoading from './components/projects/errorLoading';
+import Tasks from './routes/tasks';
 
 const chakraTheme = chakraExtendTheme();
 const materialTheme = muiCreateTheme();
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/tasks",
-        element: <div>Here's your active tasks</div>,
+        element: <Tasks />,
       },
       {
         path: "/projects",

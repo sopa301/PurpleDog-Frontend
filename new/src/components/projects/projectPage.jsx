@@ -1,7 +1,7 @@
 
 import '../../App.css';
-import TaskList from '../tasks/taskList';
-import PeopleList from '../people/peopleList';
+import TaskList from '../custom/taskList';
+import PeopleList from '../custom/peopleList';
 import {
   Grid, 
   GridItem,
@@ -13,7 +13,7 @@ import {
 import { Project, ProjectJSONable } from '../../Objects';
 import {useState} from 'react';
 import axios from 'axios';
-import MoveMenu from '../tasks/moveMenu';
+import MoveMenu from '../custom/moveMenu';
 import { redirect, useLoaderData, useNavigate, useOutletContext } from 'react-router-dom';
 import CButton from '../custom/cButton';
 

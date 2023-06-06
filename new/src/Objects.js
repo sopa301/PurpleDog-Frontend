@@ -1,12 +1,18 @@
 import { DateTime, Interval } from "luxon";
 
 export class Project {
-    constructor(people, tasks) {
+    // id is a number
+    // name is a string
+    // people is an array of Person objects
+    // tasks is an array of Task objects
+    constructor(id, name, people, tasks) {
+        this.id = id;
+        this.name = name;
         this.people = people;
         this.tasks = tasks;
     }
     toString() {
-        return "People: " + this.people + "\n Tasks: " + this.tasks + "\n";
+        return "Project " + this.name + "\nPeople: " + this.people + "\n Tasks: " + this.tasks + "\n";
     }
 
     toJSONable() {
@@ -18,18 +24,24 @@ export class Project {
         for (let i = 0; i < this.tasks.length; i++) {
             taskCopy[i] = this.tasks[i].toJSONable();
         }
-        return new ProjectJSONable(peopleCopy, taskCopy);
+        return new ProjectJSONable(this.id, this.name, peopleCopy, taskCopy);
     }
 }
 
 export class ProjectJSONable {
-    constructor(people, tasks) {
+    // id is a number
+    // name is a string
+    // people is an array of PersonJSONable objects
+    // tasks is an array of TaskJSONable objects
+    constructor(id, name, people, tasks) {
+        this.id = id;
+        this.name = name;
         this.people = people;
         this.tasks = tasks;
     }
 
     toString() {
-        return "People: " + this.people + "\n Tasks: " + this.tasks + "\n";
+        return "ProjectJSONable " + this.name + "\nPeople: " + this.people + "\n Tasks: " + this.tasks + "\n";
     }
 
     static fromJSONable(proj) {
@@ -41,28 +53,27 @@ export class ProjectJSONable {
         for (let i = 0; i < proj.tasks.length; i++) {
             taskCopy[i] = TaskJSONable.fromJSONable(proj.tasks[i]);
         }
-        return new Project(peopleCopy, taskCopy);
+        return new Project(this.id, this.name, peopleCopy, taskCopy);
     }
 }
 
 export class Person {
+    // id is a string
     // name is a string
-    // avail is an array of Interval objects from the Luxon library
-    constructor(name, avails, tasks) {
+    // avail is an array of Availability objects
+    // role is a string (editor/viewer)
+    constructor(id, name, avails, role) {
+        this.id = id;
         this.name = name;
         this.avails = avails;
-        this.tasks = tasks;
+        this.role = role;
     }
 
     toString() {
-        var out = "Name: " + this.name + "\n";
+        var out = "Name: " + this.name + ", " + this.role + "\n";
         out += "Availabilities: ";
         for (var avail of this.avails) {
-            out += avail.toLocaleString(DateTime.DATETIME_MED) + "\n";
-        }
-        out += "Tasks: ";
-        for (var task of this.tasks) {
-            out += task.toString() + "\n";
+            out += avail.toString() + "\n";
         }
         return out;
     }
@@ -70,34 +81,29 @@ export class Person {
     toJSONable() {
         const outAvails = [];
         for (let i = 0; i < this.avails.length; i++) {
-            outAvails[i] = this.avails[i].toISO({suppressSeconds: true});
+            outAvails[i] = this.avails[i].toJSONable();
         }
-        const outTasks = [];
-        for (let i = 0; i < this.tasks.length; i++) {
-            outTasks[i] = this.tasks[i].toJSONable();
-        }
-        return new PersonJSONable(this.name, outAvails, outTasks);
+        return new PersonJSONable(this.id, this.name, outAvails, this.role);
     }
 }
 
 export class PersonJSONable {
+    // id is a number
     // name is a string
-    // avail is an array of ISO strings
-    constructor(name, avails, tasks) {
+    // avail is an array of AvailabilityJSONable objects
+    // role is a string(viewer/ editor)
+    constructor(id, name, avails, role) {
+        this.id = id;
         this.name = name;
         this.avails = avails;
-        this.tasks = tasks;
+        this.role = role;
     }
 
     toString() {
-        var out = "JSON \n Name: " + this.name + "\n";
+        var out = "JSON Name: " + this.name + ", " + this.role + "\n";
         out += "Availabilities: ";
         for (var avail of this.avails) {
             out += avail.toString() + "\n";
-        }
-        out += "Tasks: ";
-        for (var task of this.tasks) {
-            out += task.toString() + "\n";
         }
         return out;
     }
@@ -105,58 +111,73 @@ export class PersonJSONable {
     static fromJSONable(object) {
         const outAvails = [];
         for (let i = 0; i < object.avails.length; i++) {
-            outAvails[i] = Interval.fromISO(object.avails[i]);
+            outAvails[i] = AvailabilityJSONable.fromJSONable(object.avails[i]);
         }
-        const outTasks = [];
-        for (let i = 0; i < object.tasks.length; i++) {
-            outTasks[i] = TaskJSONable.fromJSONable(object.tasks[i]);
-        }
-        return new Person(object.name, outAvails, outTasks);
+        return new Person(object.id, object.name, outAvails, role);
     }
 }
 
 export class Task {
+    // id is a number
     // name is a String
-    // pax is an integer
-    // timeframe is an Interval object
-    // timeNeeded is a number
-    constructor(name, pax, interval) {
+    // pax is an number
+    // interval is an Interval object from the Luxon library
+    // user_id is a number
+    // completed is a boolean
+    // proj_id is a number
+    // priority is a number
+    constructor(id, name, pax, interval, user_id, completed, proj_id, priority) {
+        this.id = id;
         this.name = name;
         this.pax = pax;
         this.interval = interval;
+        this.user_id = user_id;
+        this.completed = completed;
+        this.proj_id = proj_id;
+        this.priority = priority;
     }
     getInterval() {
         return this.interval.toLocaleString(DateTime.DATETIME_MED);
     }
     getTimeNeeded() {
-        return Math.round(this.interval.toDuration("hours").toObject().hours);
+        return Math.round(this.interval.toDuration("minutes").toObject().minutes);
     }
     toString() {
         var out = "Task: " + this.name + "\n";
         out += "People required: " + this.pax + "\n";
-        out += "Interval: " + this.interval.toLocaleString(DateTime.DATETIME_MED) + "\n";
+        out += "Interval: " + this.getInterval() + "\n";
         out += "Time needed: " + this.getTimeNeeded() + "\n";
         return out;
     }
     toJSONable() {
         const outInterval = this.interval.toISO({suppressSeconds: true});
-        return new TaskJSONable(this.name, this.pax, outInterval);
+        return new TaskJSONable(this.id, this.name, this.pax,
+            outInterval, this.user_id, this.completed, this.proj_id, this.priority);
     }
 
 }
 
 export class TaskJSONable {
+    // id is a number
     // name is a String
-    // pax is an integer
-    // timeframe is an ISO string
-    // timeNeeded is a number
-    constructor(name, pax, interval) {
+    // pax is an number
+    // interval is an ISO string
+    // user_id is a number
+    // completed is a boolean
+    // proj_id is a number
+    // priority is a number
+    constructor(id, name, pax, interval, user_id, completed, proj_id, priority) {
+        this.id = id;
         this.name = name;
         this.pax = pax;
         this.interval = interval;
+        this.user_id = user_id;
+        this.completed = completed;
+        this.proj_id = proj_id;
+        this.priority = priority;
     }
     toString() {
-        var out = "JSON \n Task: " + this.name + "\n";
+        var out = "JSON Task: " + this.name + "\n";
         out += "People required: " + this.pax + "\n";
         out += "Interval: " + this.interval + "\n";
         return out;
@@ -164,6 +185,40 @@ export class TaskJSONable {
 
     static fromJSONable(object) {
         const outInterval = Interval.fromISO(object.interval);
-        return new Task(object.name, object.pax, outInterval);
+        return new Task(this.id, this.name, this.pax,
+            outInterval, this.user_id, this.completed, this.proj_id, this.priority);
+
+    }
+}
+
+export class Availability {
+    // id is a number
+    // interval is an Interval object from the Luxon library
+    constructor(id, interval) {
+        this.id = id;
+        this.interval = interval;
+    }
+
+    toString() {
+        return this.interval.toLocaleString(DateTime.DATETIME_MED);
+    }
+
+    toJSONable() {
+        return new AvailabilityJSONable(id, this.interval.toISO({suppressSeconds: true}));
+    }
+}
+
+export class AvailabilityJSONable {
+    // id is a number
+    // interval is an ISO string
+    constructor(id, interval) {
+        this.id = id;
+        this.interval = interval;
+    }
+    toString() {
+        return this.interval;
+    }
+    static fromJSONable(object) {
+        return new Availability(this.id, Interval.fromISO(object.interval));
     }
 }

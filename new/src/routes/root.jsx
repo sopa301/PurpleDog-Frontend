@@ -3,7 +3,7 @@ import {
     Box,
 } from '@chakra-ui/react';
 import axios from "axios";
-import Banner from "../components/banner";
+import Banner from "../components/main/banner";
 
 export default function Root(props) {
     const navigate = useNavigate();
