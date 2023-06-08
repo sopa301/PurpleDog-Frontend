@@ -27,7 +27,6 @@ import Projects from './routes/projects';
 import ProjectPage, {loader as projLoader} from './components/projects/projectPage';
 import Profile from './routes/profile';
 import Home from './routes/home';
-import ErrorLoading from './components/projects/errorLoading';
 import Tasks from './routes/tasks';
 
 const chakraTheme = chakraExtendTheme();
@@ -58,13 +57,9 @@ const router = createBrowserRouter([
             element: <Projects toast={toast}/>,
           },
           {
-            path: ":projName",
+            path: ":proj_id",
             element: <ProjectPage toast={toast}/>,
             loader: projLoader,
-          },
-          {
-            path: "error",
-            element: <ErrorLoading toast={toast}/>,
           },
         ],
       },
@@ -94,7 +89,7 @@ const router = createBrowserRouter([
 
 root.render(
   <ChakraProvider theme={chakraTheme} resetCSS>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <MaterialThemeProvider theme={{ [THEME_ID]: materialTheme }}>
         <LocalizationProvider dateAdapter={AdapterLuxon}>
           <ToastContext.Provider value={toast}>
@@ -103,7 +98,7 @@ root.render(
           <ToastContainer />
         </LocalizationProvider>
       </MaterialThemeProvider>
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </ChakraProvider>
 );
 

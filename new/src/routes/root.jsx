@@ -1,15 +1,18 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import {
-    Box,
+    Box, useEditable,
 } from '@chakra-ui/react';
 import axios from "axios";
 import Banner from "../components/main/banner";
+import { useEffect } from "react";
 
 export default function Root(props) {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
-    validateToken(token, navigate, user);
+    useEffect(() => {
+      validateToken(token, navigate, user, props.toast);
+    }, []);
     return (
         <Box>
             <Banner loggedIn={true} toast={props.toast}/>
@@ -18,14 +21,14 @@ export default function Root(props) {
     );
 }
 
-function validateToken(token, navFn, username) {
+function validateToken(token, navFn, username, toastFn) {
     if (token) {
       return axios.post(import.meta.env.VITE_API_URL + "/validate", {
           username: username,
           token: token,
         })
         .catch(function (error) {
-          props.toast({
+          toastFn({
             title: "Invalid token.",
             description: "Please log in again.",
             status: "error",
@@ -35,7 +38,7 @@ function validateToken(token, navFn, username) {
           navFn("/login");
         });
     } else {
-      props.toast({
+      toastFn({
         title: "Invalid token.",
         description: "Please log in again.",
         status: "error",
