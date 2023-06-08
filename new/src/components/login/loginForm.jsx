@@ -42,6 +42,7 @@ export default function LoginForm(props) {
       .then(function (response) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", values.username);
+        localStorage.setItem("user_id", response.data.user_id);
         navigate("/projects");
       })
       .catch(function (error) {
