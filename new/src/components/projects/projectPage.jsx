@@ -7,7 +7,6 @@ import {
   TabPanel,
   TabPanels,
 } from '@chakra-ui/react';
-import { Person, Project, ProjectJSONable } from '../../Objects';
 import {useEffect, useState, useContext} from 'react';
 import axios from 'axios';
 import { Link, useLoaderData, useNavigate } from 'react-router-dom';
@@ -16,7 +15,11 @@ import ManageTasks from './manageTasks/manageTasks';
 import Summary from './summary';
 import ManagePeople from './managePeople/managePeople';
 import { DateTime, Interval } from 'luxon';
-import { Availability } from '../../Objects';
+import { Project } from '../../objects/project';
+import { Person } from '../../objects/person';
+import { Availability } from '../../objects/availability';
+import { TaskGroup } from '../../objects/taskGroup';
+import { Task } from '../../objects/task';
 
 export default function ProjectPage(props) {
   const navigate = useNavigate();
@@ -48,7 +51,9 @@ export default function ProjectPage(props) {
     //     duration: 9000,
     //     isClosable: true,
     //   });
-      setProj(new Project(1, "p", [new Person(1, "foo", [new Availability(1, Interval.fromDateTimes(DateTime.now(), DateTime.local(3000, 2, 2)))], "viewer")], []));
+      setProj(new Project(1, "p",
+        [new Person(99, "foo", [new Availability(1, Interval.fromDateTimes(DateTime.now(), DateTime.local(3000, 2, 2)))], "viewer")],
+        [new TaskGroup(1, "tg1", [new Task(1, Interval.fromDateTimes(DateTime.now(), DateTime.local(3000, 2, 2)), 99, false, 1, 0, 1)], 1, 0)]));
     // });
   }, [proj_id]);
   
@@ -61,21 +66,21 @@ export default function ProjectPage(props) {
                 cursor: default;
             }
           `}/>
+          <Tab>Summary</Tab>
           <Tab>Manage Tasks</Tab>
           <Tab>Manage People</Tab>
-          <Tab>Summary</Tab>
       </TabList>
       
       <TabPanels>
         <TabPanel />
         <TabPanel>
+          <Summary proj={proj}/>
+        </TabPanel>
+        <TabPanel>
           <ManageTasks proj={proj} update={(newTasks) => setProj(new Project(proj.id, proj.name, proj.people, newTasks))}/>
         </TabPanel>
         <TabPanel>
-          <ManagePeople proj={proj} update={(newPeople) => setProj(new Project(proj.id, proj.name, newPeople, proj.tasks))}/>
-        </TabPanel>
-        <TabPanel>
-          <Summary proj={proj}/>
+          <ManagePeople proj={proj} update={(newPeople) => setProj(new Project(proj.id, proj.name, newPeople, proj.taskGroups))}/>
         </TabPanel>
       </TabPanels>
     </Tabs>
@@ -85,94 +90,3 @@ export default function ProjectPage(props) {
 export async function loader({params}) {
   return {proj_id: params.proj_id};
 }
-
-// const [peopleArray, setPeopleArray] = useState(projData.people);
-  // const [taskArray, setTaskArray] = useState(projData.tasks);
-  // // Move menu state controllers
-  // const {isOpen, onOpen, onClose} = useDisclosure();
-  // // Move menu callback variables
-  // const [taskPack, setTaskPack] = useState();
-
-  // function back() {
-  //   navigate("../");
-  // }
-  // async function handleBack() {
-  //   saveProj().then(success => success ? back() : "");
-  // }
-  // async function saveProj() {
-  //   return await axios.post(import.meta.env.VITE_API_URL + '/saveProject', {
-  //     username: user,
-  //     projectname: projName,
-  //     projectdata: JSON.stringify(new Project(peopleArray, taskArray).toJSONable()),
-  //   })
-  //   .then(function (response) {
-  //     props.toast({
-  //       title: "Project saved.",
-  //       description: "",
-  //       status: "success",
-  //       duration: 9000,
-  //       isClosable: true,
-  //     });
-  //     return true;
-  //   })
-  //   .catch(function (error) {
-  //     props.toast({
-  //       title: "Unable to save project.",
-  //       description: error.toString(),
-  //       status: "error",
-  //       duration: 9000,
-  //       isClosable: true,
-  //     });
-  //     return false;
-  //   });
-  // }
-
-  // function handleMove(task, taskIndex, setOriginalArray, originalArray) {
-  //   onOpen();
-  //   setTaskPack({
-  //     "task": task, 
-  //     "taskIndex": taskIndex, 
-  //     "setOriginalArray": setOriginalArray, 
-  //     "originalArray": originalArray,
-  //   });
-  // }
-
-  // // useEffect(() => {
-  // //   localStorage.setItem("proj", JSON.stringify(new Project(peopleArray, taskArray).toJSONable()));
-  // // }, [peopleArray, taskArray]);
-
-  // return (
-  //   <Box paddingX="10px" >
-  //     <Grid templateColumns='repeat(2, 1fr)' gap={1}>
-  //       <GridItem>
-  //         <Heading>Unassigned Tasks</Heading>
-  //         <TaskList 
-  //           array={taskArray} 
-  //           setArray={setTaskArray}
-  //           handleMove={handleMove}
-  //         />
-  //       </GridItem>
-  //       <GridItem>
-  //         <PeopleList 
-  //           array={peopleArray} 
-  //           setArray={setPeopleArray}
-  //           handleMove={handleMove}
-  //         />
-  //       </GridItem>
-  //     </Grid>
-  //     <br></br>
-  //     <Button>Run</Button>
-  //     <CButton content="Save" onClick={saveProj}/>
-  //     <CButton content="Back" onClick={handleBack}/>
-  //     <MoveMenu 
-  //       peopleArray={peopleArray}
-  //       taskArray={taskArray}
-  //       modalIsOpen={isOpen}
-  //       modalOnOpen={onOpen}
-  //       modalOnClose={onClose}
-  //       taskPack={taskPack}
-  //       setPeopleArray={setPeopleArray}
-  //       setTaskArray={setTaskArray}
-  //     />
-  //   </Box>
-  // );

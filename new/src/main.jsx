@@ -25,7 +25,7 @@ import LoginComponent from './components/login/loginComponent';
 import SignUpComponent from './components/login/signUpComponent';
 import Projects from './routes/projects';
 import ProjectPage, {loader as projLoader} from './components/projects/projectPage';
-import Profile from './routes/profile';
+import Profile from './components/profile';
 import Home from './routes/home';
 import Tasks from './routes/tasks';
 
@@ -62,11 +62,6 @@ const router = createBrowserRouter([
             loader: projLoader,
           },
         ],
-      },
-      {
-        path: "/profile",
-        // TODO : create a profile page or sth
-        element: <Profile/>,
       },
     ],
   },

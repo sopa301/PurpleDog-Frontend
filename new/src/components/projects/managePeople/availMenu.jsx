@@ -13,7 +13,7 @@ import {
   } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import { DateTimeField } from "@mui/x-date-pickers";
-import { Interval, DateTime } from "luxon";
+import { Interval } from "luxon";
 
 export default function AvailMenu(props) {
     function validateInterval(value) {

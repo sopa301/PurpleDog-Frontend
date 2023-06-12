@@ -1,4 +1,4 @@
-import { Box, Button, Spacer } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 export default function Nav(props) {
