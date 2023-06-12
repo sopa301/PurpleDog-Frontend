@@ -10,8 +10,9 @@ export default function Root(props) {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
+    const user_id = localStorage.getItem("user_id");
     useEffect(() => {
-      validateToken(token, navigate, user, props.toast);
+      validateToken(token, navigate, user_id, props.toast);
     }, []);
     return (
         <Box>
@@ -21,10 +22,10 @@ export default function Root(props) {
     );
 }
 
-function validateToken(token, navFn, username, toastFn) {
+function validateToken(token, navFn, user_id, toastFn) {
     if (token) {
       return axios.post(import.meta.env.VITE_API_URL + "/validate", {
-          username: username,
+          user_id: user_id,
           token: token,
         })
         .catch(function (error) {

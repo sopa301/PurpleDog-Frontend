@@ -13,7 +13,7 @@ import {
   } from '@chakra-ui/react';
 import {Interval, DateTime} from "luxon";
 import AvailMenu from './availMenu';
-import { Availability } from "../../../Objects";
+import { Availability } from "../../../objects/availability";
 import axios from "axios";
 import { ToastContext } from "../../../main";
 import CButton from "../../custom/cButton";

@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import CButton from "../../custom/cButton";
 import { useState, useContext } from "react";
-import { Person } from "../../../Objects";
+import { Person } from "../../../objects/person";
 import axios from "axios";
 import { ToastContext } from "../../../main";
 import AvailList from "./availList";

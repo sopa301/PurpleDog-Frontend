@@ -9,7 +9,7 @@ import PersonSettings from "./personSettings";
 import PersonMenu from "./personMenu";
 import axios from "axios";
 import { ToastContext } from "../../../main";
-import { Person } from "../../../Objects";
+import { Person } from "../../../objects/person";
 
 export default function ManagePeople(props) {
     const toast = useContext(ToastContext);

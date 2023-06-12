@@ -16,7 +16,6 @@ import {
     Radio,
   } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
-import AvailList from "./availList";
 
 export default function PersonMenu(props) {
     function validateField(value) {
@@ -26,14 +25,6 @@ export default function PersonMenu(props) {
         } 
         return error;
     }
-    // function validateArray(value) {
-    //     let error;
-    //     if (props.activeIntervalArray.length < 1) {
-    //       error = 'At least one interval is required';
-    //     } 
-    //     return error;
-    // }
-
     return (
     <Fragment>
       <Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -72,15 +63,6 @@ export default function PersonMenu(props) {
                     </FormControl>
                     )}  
                 </Field>
-                {/* <Field name='avails' validate={validateArray}>
-                    {({ field, form }) => (
-                    <FormControl isInvalid={form.errors.avails && form.touched.avails}>
-                        <FormLabel>Availabilities</FormLabel>
-                        <AvailList array={props.activeIntervalArray} setArray={props.setActiveIntervalArray}/>
-                        <FormErrorMessage>{form.errors.avails}</FormErrorMessage>
-                    </FormControl>
-                    )}
-                </Field> */}
                 <Button
                     mt={4}
                     colorScheme='teal'
