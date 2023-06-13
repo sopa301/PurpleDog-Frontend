@@ -35,7 +35,8 @@ export default function LoginForm(props) {
   }
 
   async function handleLogin(values, actions) {
-    await axios.post(import.meta.env.VITE_API_URL + "/login", {
+    await axios
+      .post(import.meta.env.VITE_API_URL + "/login", {
         username: values.username,
         password: values.password,
       })
@@ -49,7 +50,7 @@ export default function LoginForm(props) {
         actions.setSubmitting(false);
         props.toast({
           title: "Login Failed.",
-          description: error.toString(),
+          description: getErrorMessage(error.response.status),
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -60,26 +61,25 @@ export default function LoginForm(props) {
   return (
     <Formik
       initialValues={{ username: "", password: "" }}
-      onSubmit={handleLogin}>
+      onSubmit={handleLogin}
+    >
       {(props) => (
         <Form>
           <Field name="username" validate={validateUsername}>
             {({ field, form }) => (
-              <FormControl isInvalid={form.errors.username && form.touched.username}>
+              <FormControl
+                isInvalid={form.errors.username && form.touched.username}
+              >
                 <FormLabel>Username</FormLabel>
                 <Input {...field} placeholder="username" />
-                <FormErrorMessage>
-                  {form.errors.username}
-                </FormErrorMessage>
+                <FormErrorMessage>{form.errors.username}</FormErrorMessage>
               </FormControl>
             )}
           </Field>
           <Field name="password" validate={validatePassword}>
             {({ field, form }) => (
               <FormControl
-                isInvalid={
-                  form.errors.password && form.touched.password
-                }
+                isInvalid={form.errors.password && form.touched.password}
               >
                 <FormLabel>Password</FormLabel>
                 <InputGroup size="md">
@@ -94,9 +94,7 @@ export default function LoginForm(props) {
                     </Button>
                   </InputRightElement>
                 </InputGroup>
-                <FormErrorMessage>
-                  {form.errors.password}
-                </FormErrorMessage>
+                <FormErrorMessage>{form.errors.password}</FormErrorMessage>
               </FormControl>
             )}
           </Field>
@@ -106,9 +104,21 @@ export default function LoginForm(props) {
             color="white"
             isLoading={props.isSubmitting}
             type="submit"
-          >Submit</Button>
+          >
+            Submit
+          </Button>
         </Form>
       )}
-    </Formik>          
+    </Formik>
   );
+}
+
+function getErrorMessage(status) {
+  if (status === 403) {
+    return "Incorrect password.";
+  }
+  if (status === 404) {
+    return "Username not found.";
+  }
+  return "Unknown error."
 }

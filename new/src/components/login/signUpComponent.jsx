@@ -72,7 +72,7 @@ export default function SignUpComponent(props) {
       .catch(function (error) {
         toast({
           title: "Sign up failed.",
-          description: error.toString(),
+          description: getErrorMessage(error.response.status),
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -88,19 +88,23 @@ export default function SignUpComponent(props) {
     <Box>
       <Heading>Sign Up</Heading>
       <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={{ username: "", password: "", password2: "" }}
         onSubmit={(values, actions) => {
           signUpFunction(values.username, values.password).then((result) => {
             actions.setSubmitting(result);
             if (result) {
               navigate("/login");
             }
-          });}}>
+          });
+        }}
+      >
         {(propsInner) => (
           <Form>
             <Field name="username" validate={validateUsername}>
               {({ field, form }) => (
-                <FormControl isInvalid={form.errors.username && form.touched.username}>
+                <FormControl
+                  isInvalid={form.errors.username && form.touched.username}
+                >
                   <FormLabel>Username</FormLabel>
                   <Input {...field} placeholder="username" />
                   <FormErrorMessage>{form.errors.username}</FormErrorMessage>
@@ -165,7 +169,9 @@ export default function SignUpComponent(props) {
               colorScheme="teal"
               isLoading={propsInner.isSubmitting}
               type="submit"
-            >Submit</Button>
+            >
+              Submit
+            </Button>
             <Link to="/login">
               <Button mt={4}>Back</Button>
             </Link>
@@ -174,4 +180,11 @@ export default function SignUpComponent(props) {
       </Formik>
     </Box>
   );
+}
+
+function getErrorMessage(status) {
+  if (status === 403) {
+    return "Username is taken.";
+  }
+  return "Unknown error.";
 }
