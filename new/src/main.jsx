@@ -1,45 +1,44 @@
-import React, { createContext } from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
-import { 
-  ChakraProvider, 
+import React, { createContext } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import {
+  ChakraProvider,
   extendTheme as chakraExtendTheme,
   createStandaloneToast,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   ThemeProvider as MaterialThemeProvider,
   createTheme as muiCreateTheme,
   THEME_ID,
-} from '@mui/material/styles';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import ErrorPage from "./error-page"; 
-import Root from './routes/root';
-import Login from './routes/login';
-import LoginComponent from './components/login/loginComponent';
-import SignUpComponent from './components/login/signUpComponent';
-import Projects from './routes/projects';
-import ProjectPage, {loader as projLoader} from './components/projects/projectPage';
-import Profile from './components/profile';
-import Home from './routes/home';
-import Tasks from './routes/tasks';
+} from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ErrorPage from "./error-page";
+import Root from "./routes/root";
+import Login from "./routes/login";
+import LoginComponent from "./components/login/loginComponent";
+import SignUpComponent from "./components/login/signUpComponent";
+import Projects from "./routes/projects";
+import ProjectPage, {
+  loader as projLoader,
+} from "./components/projects/projectPage";
+import Profile from "./components/profile";
+import Home from "./routes/home";
+import Tasks from "./routes/tasks";
 
 const chakraTheme = chakraExtendTheme();
 const materialTheme = muiCreateTheme();
-const root = ReactDOM.createRoot(document.getElementById('root'));
-const {ToastContainer, toast} = createStandaloneToast();
+const root = ReactDOM.createRoot(document.getElementById("root"));
+const { ToastContainer, toast } = createStandaloneToast();
 export const ToastContext = createContext(toast);
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root toast={toast}/>,
-    errorElement: <ErrorPage/>,
+    element: <Root toast={toast} />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "",
@@ -54,11 +53,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: <Projects toast={toast}/>,
+            element: <Projects toast={toast} />,
           },
           {
             path: ":proj_id",
-            element: <ProjectPage toast={toast}/>,
+            element: <ProjectPage toast={toast} />,
             loader: projLoader,
           },
         ],
@@ -68,7 +67,7 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "",
@@ -85,14 +84,14 @@ const router = createBrowserRouter([
 root.render(
   <ChakraProvider theme={chakraTheme} resetCSS>
     {/* <React.StrictMode> */}
-      <MaterialThemeProvider theme={{ [THEME_ID]: materialTheme }}>
-        <LocalizationProvider dateAdapter={AdapterLuxon}>
-          <ToastContext.Provider value={toast}>
-            <RouterProvider router={router} />
-          </ToastContext.Provider>
-          <ToastContainer />
-        </LocalizationProvider>
-      </MaterialThemeProvider>
+    <MaterialThemeProvider theme={{ [THEME_ID]: materialTheme }}>
+      <LocalizationProvider dateAdapter={AdapterLuxon}>
+        <ToastContext.Provider value={toast}>
+          <RouterProvider router={router} />
+        </ToastContext.Provider>
+        <ToastContainer />
+      </LocalizationProvider>
+    </MaterialThemeProvider>
     {/* </React.StrictMode> */}
   </ChakraProvider>
 );

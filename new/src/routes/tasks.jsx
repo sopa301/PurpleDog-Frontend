@@ -1,6 +1,73 @@
+import { useContext, useEffect, useState } from "react";
+import { ToastContext } from "../main";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
+  Box,
+  Text,
+  Heading,
+  Stack,
+} from "@chakra-ui/react";
+import axios from "axios";
+import Loading from "../components/custom/loading";
 
 export default function Tasks(props) {
+  const toast = useContext(ToastContext);
+  const [tasks, setTasks] = useState();
+  useEffect(() => {
+    axios
+      .post(import.meta.env.VITE_API_URL + "/getmytasks", {
+        user_id: localStorage.getItem("user_id"),
+      })
+      .then(function (response) {
+        const data = response.data.tasks;
+        data.sort((a, b) => {
+          return a.taskGroup.tasks[0].interval.start < b.taskGroup.tasks[0].interval.start ? -1 : 1;
+        })
+        setTasks(data.map(mapTasks));
+      })
+      .catch(function (error) {
+        toast({
+          title: "Unable to load tasks",
+          description: getErrorMessage(error.response.status),
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      });
+  }, []);
+
+  function mapTasks(task) {
     return (
-        <div> Here's your tasks.</div>
-    )
+      <AccordionItem key={task.taskGroup.tasks[0].id}>
+        <AccordionButton>
+          {task.taskGroup}
+          <AccordionIcon />
+        </AccordionButton>
+        <AccordionPanel>{task.projName}</AccordionPanel>
+      </AccordionItem>
+    );
+  }
+
+  return (
+    <Box paddingX="5px">
+      <Heading paddingX="5px">My Tasks</Heading>
+      {tasks ? (
+        <Accordion allowMultiple="true" defaultIndex={[-1]} padding="5px">
+          {tasks}
+        </Accordion>
+      ) : (
+        <Loading />
+      )}
+    </Box>
+  );
+}
+function getErrorMessage(status) {
+  if (status === 404) {
+    return "User ID not found.";
+  }
+  return "Unknown error.";
 }
