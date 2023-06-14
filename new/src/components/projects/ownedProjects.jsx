@@ -66,7 +66,7 @@ export default function OwnedProjects(props) {
         .catch(function (error) {
           props.toast({
             title: "Unable to delete project.",
-            description: getErrorMessageDP(error.response.status),
+            description: getErrorMessageDP(error),
             status: "error",
             duration: 9000,
             isClosable: true,
@@ -154,7 +154,7 @@ export default function OwnedProjects(props) {
       .catch(function (error) {
         props.toast({
           title: "Unable to change project name.",
-          description: getErrorMessageEP(error.response.status),
+          description: getErrorMessageEP(error),
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -188,7 +188,11 @@ export default function OwnedProjects(props) {
     </Box>
   );
 }
-function getErrorMessageDP(status) {
+function getErrorMessageDP(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
   if (status === 403) {
     return "Not authorised.";
   }
@@ -197,6 +201,10 @@ function getErrorMessageDP(status) {
   }
   return "Unknown error.";
 }
-function getErrorMessageEP(status) {
+function getErrorMessageEP(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
   return "Unknown error.";
 }

@@ -21,30 +21,6 @@ export default function Summary(props) {
     }
   }, [proj]);
 
-  function mapSummary(obj) {
-    return (
-      <AccordionItem key={obj.person.id}>
-        <AccordionButton padding="5px">
-          <Flex w="100%">
-            <Box textAlign="left" fontWeight="semibold">
-              {obj.person.name}
-            </Box>
-            <Spacer />
-            <AccordionIcon />
-          </Flex>
-        </AccordionButton>
-        <AccordionPanel>{obj.taskGroups.map(mapTaskGroup)}</AccordionPanel>
-      </AccordionItem>
-    );
-  }
-  function mapTaskGroup(tg) {
-    return (
-      <Text key={tg.tasks[0].id}>
-        {tg.name} {tg.tasks[0].toString()}
-      </Text>
-    );
-  }
-
   return (
     <Accordion allowMultiple="true" defaultIndex={[-1]}>
       {summary}
@@ -64,6 +40,14 @@ function convertToSummary(proj) {
     array[index] = { person: person, taskGroups: taskGroups };
     index++;
   }
+  let taskGroups = [];
+  for (const tg of proj.taskGroups) {
+    taskGroups = addTasks(taskGroups, tg, null);
+  }
+  array[index] = {
+    person: { name: "Unassigned", id: -1, unassigned: true},
+    taskGroups: taskGroups,
+  };
   return array;
 }
 
@@ -78,11 +62,42 @@ function addTasks(array, taskGroup, id) {
           taskGroup.id,
           taskGroup.name,
           [task],
-          taskGroup.pax,
-          taskGroup.priority
+          taskGroup.pax
         )
       );
     }
   }
   return out;
+}
+function mapSummary(obj) {
+  return (
+    <AccordionItem key={obj.person.id}>
+      <AccordionButton padding="5px">
+        <Flex w="100%">
+          <Box textAlign="left" fontWeight="semibold">
+            {obj.person.name}
+          </Box>
+          <Spacer />
+          {!obj.person.unassigned ? <Box>{TaskGroup.getArrayWorkload(obj.taskGroups) + " minutes"}</Box> : <div/>}
+          <AccordionIcon />
+        </Flex>
+      </AccordionButton>
+      <AccordionPanel>
+        {obj.taskGroups.length > 0 ? (
+          obj.taskGroups.map(mapTaskGroup)
+        ) : (
+          <Text as='i'>No Tasks</Text>
+        )}
+      </AccordionPanel>
+    </AccordionItem>
+  );
+}
+function mapTaskGroup(tg) {
+  return (
+    <Flex key={tg.tasks[0].task_id}>
+      {tg.name}
+      <Spacer />
+      {tg.tasks[0].getInterval()}
+    </Flex>
+  );
 }

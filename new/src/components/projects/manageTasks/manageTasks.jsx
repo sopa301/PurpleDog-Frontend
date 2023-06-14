@@ -64,8 +64,7 @@ export default function ManageTasks(props) {
           response.data.id,
           values.name,
           array,
-          values.pax,
-          values.priority
+          values.pax
         );
         const newTaskGroups = [...props.proj.taskGroups, newTaskGroup];
         props.update(newTaskGroups);
@@ -84,8 +83,7 @@ export default function ManageTasks(props) {
           1,
           values.name,
           array,
-          values.pax,
-          values.priority
+          values.pax
         );
         const newTaskGroups = [...props.proj.taskGroups, newTaskGroup];
         props.update(newTaskGroups);

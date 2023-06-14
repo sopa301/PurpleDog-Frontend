@@ -1,15 +1,15 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Stack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 export default function Nav(props) {
   return (
-    <Box paddingX="10px">
-      <Link to="./tasks">
-        <Button>My Tasks</Button>
-      </Link>
-      <Link to="./projects">
-        <Button>Projects</Button>
-      </Link>
-    </Box>
+    <Stack paddingLeft="30px" alignItems="end" direction={"row"}>
+      <Box paddingX="5px" fontWeight="bold">
+        <Link to="./tasks">My Tasks</Link>
+      </Box>
+      <Box paddingX="5px" fontWeight="bold">
+        <Link to="./projects">Projects</Link>
+      </Box>
+    </Stack>
   );
 }

@@ -27,7 +27,7 @@ export class TaskJSONable {
     this.isAssigned = isAssigned;
   }
   toString() {
-    var out = "JSON Task: " + this.name + "\n";
+    var out = "JSON Task:\n";
     out += "Interval: " + this.interval + "\n";
     return out;
   }

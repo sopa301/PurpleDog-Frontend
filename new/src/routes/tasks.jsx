@@ -7,9 +7,7 @@ import {
   AccordionIcon,
   AccordionPanel,
   Box,
-  Text,
   Heading,
-  Stack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import Loading from "../components/custom/loading";
@@ -25,14 +23,17 @@ export default function Tasks(props) {
       .then(function (response) {
         const data = response.data.tasks;
         data.sort((a, b) => {
-          return a.taskGroup.tasks[0].interval.start < b.taskGroup.tasks[0].interval.start ? -1 : 1;
-        })
+          return a.taskGroup.tasks[0].interval.start <
+            b.taskGroup.tasks[0].interval.start
+            ? -1
+            : 1;
+        });
         setTasks(data.map(mapTasks));
       })
       .catch(function (error) {
         toast({
           title: "Unable to load tasks",
-          description: getErrorMessage(error.response.status),
+          description: getErrorMessage(error),
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -65,7 +66,11 @@ export default function Tasks(props) {
     </Box>
   );
 }
-function getErrorMessage(status) {
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
   if (status === 404) {
     return "User ID not found.";
   }

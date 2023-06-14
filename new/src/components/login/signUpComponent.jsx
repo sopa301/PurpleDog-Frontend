@@ -72,7 +72,7 @@ export default function SignUpComponent(props) {
       .catch(function (error) {
         toast({
           title: "Sign up failed.",
-          description: getErrorMessage(error.response.status),
+          description: getErrorMessage(error),
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -182,7 +182,11 @@ export default function SignUpComponent(props) {
   );
 }
 
-function getErrorMessage(status) {
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
   if (status === 403) {
     return "Username is taken.";
   }

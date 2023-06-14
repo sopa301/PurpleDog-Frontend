@@ -36,7 +36,7 @@ export class Task {
     return Math.round(this.interval.toDuration("minutes").toObject().minutes);
   }
   toString() {
-    var out = "Task: " + this.name + "\n";
+    var out = "Task: " + "\n";
     out += "Interval: " + this.getInterval() + "\n";
     out += "Time needed: " + this.getTimeNeeded() + "\n";
     return out;

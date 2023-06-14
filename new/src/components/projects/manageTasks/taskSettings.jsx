@@ -33,11 +33,10 @@ export default function TaskSettings(props) {
   function mapTG(task) {
     let out;
     if (task.user_id > 0) {
-      console.log(props.proj.people);
       const name = props.proj.people.filter(
         (x) => Number(x.id) === Number(task.user_id)
       )[0].name;
-      out = <Text key={task.id}>{name}</Text>;
+      out = <Text key={task.task_id}>{name}</Text>;
     } else {
       out = <Box key={task.id} />;
     }
@@ -76,8 +75,7 @@ export default function TaskSettings(props) {
           props.taskGroup.id,
           values.name,
           array,
-          values.pax,
-          values.priority
+          values.pax
         );
         const newTaskGroups = [
           ...props.proj.taskGroups.slice(0, props.index),
@@ -102,8 +100,7 @@ export default function TaskSettings(props) {
           props.taskGroup.id,
           values.name,
           array,
-          values.pax,
-          values.priority
+          values.pax
         );
         const newTaskGroups = [
           ...props.proj.taskGroups.slice(0, props.index),
