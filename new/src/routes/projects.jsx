@@ -39,10 +39,10 @@ export default function Projects(props) {
           duration: 9000,
           isClosable: true,
         });
-        setOwnArray(testArray);
-        setOtherArray(testArray);
-        // setOwnArray();
-        // setOtherArray();
+        // setOwnArray(testArray);
+        // setOtherArray(testArray);
+        setOwnArray();
+        setOtherArray();
       });
   }
   return (

@@ -6,13 +6,11 @@ export class TaskGroup {
   // name is string
   // tasks is a Task array
   // pax is a number
-  // priority is a number
-  constructor(id, name, tasks, pax, priority) {
+  constructor(id, name, tasks, pax) {
     this.id = id;
     this.name = name;
     this.tasks = tasks;
     this.pax = pax;
-    this.priority = priority;
   }
   toString() {
     let out = "Task Group " + this.name + ":\n";
@@ -31,7 +29,6 @@ export class TaskGroup {
       this.name,
       outTasks,
       this.pax,
-      this.priority
     );
   }
   static fromJSONable(object) {
@@ -39,6 +36,20 @@ export class TaskGroup {
     for (let i = 0; i < object.tasks.length; i++) {
       outTasks[i] = Task.fromJSONable(object.tasks[i]);
     }
-    return new TaskGroup(this.id, this.name, outTasks, this.pax, this.priority);
+    return new TaskGroup(this.id, this.name, outTasks, this.pax);
+  }
+  static getArrayWorkload(array) {
+    let out = 0;
+    for (const tg of array) {
+      out += tg.getTotalWorkload();
+    }
+    return out;
+  }
+  getTotalWorkload() {
+    let out = 0;
+    for (const task of this.tasks) {
+      out += task.getTimeNeeded();
+    }
+    return out;
   }
 }

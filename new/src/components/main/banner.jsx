@@ -14,6 +14,9 @@ export default function Banner(props) {
       isClosable: true,
     });
     navigate("/login");
+    localStorage.removeItem("user");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("token");
   }
   return (
     <Flex
@@ -33,8 +36,12 @@ export default function Banner(props) {
       {props.loggedIn ? <Nav /> : <Box />}
       <Spacer />
       {props.loggedIn ? (
-        <Button onClick={handleLogout} position="right" color="black">
-          {" "}
+        <Button
+          onClick={handleLogout}
+          position="right"
+          color="white"
+          variant="outline"
+        >
           Logout
         </Button>
       ) : (

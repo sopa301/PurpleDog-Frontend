@@ -43,7 +43,7 @@ export class Project {
       peopleCopy[i] = Person.fromJSONable(proj.people[i]);
     }
     for (let i = 0; i < proj.taskGroups.length; i++) {
-      taskCopy[i] = TaskGroup.fromJSONable(proj.tasks[i]);
+      taskCopy[i] = TaskGroup.fromJSONable(proj.taskGroups[i]);
     }
     return new Project(this.id, this.name, peopleCopy, taskCopy);
   }

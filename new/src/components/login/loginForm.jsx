@@ -50,7 +50,7 @@ export default function LoginForm(props) {
         actions.setSubmitting(false);
         props.toast({
           title: "Login Failed.",
-          description: getErrorMessage(error.response.status),
+          description: getErrorMessage(error),
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -113,7 +113,11 @@ export default function LoginForm(props) {
   );
 }
 
-function getErrorMessage(status) {
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
   if (status === 403) {
     return "Incorrect password.";
   }

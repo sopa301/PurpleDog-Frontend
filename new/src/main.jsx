@@ -15,7 +15,7 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ErrorPage from "./error-page";
+import ErrorPage from "./components/main/error-page";
 import Root from "./routes/root";
 import Login from "./routes/login";
 import LoginComponent from "./components/login/loginComponent";
@@ -24,7 +24,6 @@ import Projects from "./routes/projects";
 import ProjectPage, {
   loader as projLoader,
 } from "./components/projects/projectPage";
-import Profile from "./components/profile";
 import Home from "./routes/home";
 import Tasks from "./routes/tasks";
 
