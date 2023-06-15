@@ -51,7 +51,7 @@ export default function ManageTasks(props) {
       .put(import.meta.env.VITE_API_URL + "/taskgroup", {
         project_id: props.proj.id,
         pax: values.pax,
-        task_arr_JSON: JSON.stringify(array),
+        task_arr_JSON: array,
         task_group_name: values.name,
       })
       .then(function (response) {
