@@ -60,7 +60,7 @@ export default function Login(props) {
           title: "Login Success",
           description: "",
           status: "success",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
       })
@@ -70,7 +70,7 @@ export default function Login(props) {
           title: "Login Failed.",
           description: error.toString(),
           status: "error",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
       });

@@ -28,19 +28,17 @@ export default function Projects(props) {
         user_id: localStorage.getItem("user_id"),
       })
       .then(function (response) {
-        setOwnArray(response.data.owned);
-        setOtherArray(response.data.unowned);
+        setOwnArray(response.data.projects.owned);
+        setOtherArray(response.data.projects.unowned);
       })
       .catch(function (error) {
         toastEffect({
           title: "Unable to retrieve data.",
           description: error.toString(),
           status: "error",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
-        // setOwnArray(testArray);
-        // setOtherArray(testArray);
         setOwnArray();
         setOtherArray();
       });

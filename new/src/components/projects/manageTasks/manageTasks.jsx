@@ -39,29 +39,35 @@ export default function ManageTasks(props) {
         null,
         interval,
         values.assignees[i],
-        "idk",
+        values.completed,
         props.proj.id,
         values.priority,
         null,
         values.assignees[i] ? true : false
-      );
+      ).toJSONable();
     }
+    // console.log(array)
     await axios
       .put(import.meta.env.VITE_API_URL + "/taskgroup", {
-        proj_id: props.proj_id,
+        project_id: props.proj.id,
         pax: values.pax,
-        tasks_arr_JSON: array,
+        task_arr_JSON: JSON.stringify(array),
+        task_group_name: values.name,
       })
       .then(function (response) {
         toast({
           title: values.name + " added to project.",
           status: "success",
-          duration: 3000,
+          duration: 1000,
           isClosable: true,
         });
         // might have issues with keys in taskmenu
+        for (let i = 0; i < array.length; i++) {
+          array[i].task_id = response.data.id_array[i];
+          array[i].group_id = response.data.group_id;
+        }
         const newTaskGroup = new TaskGroup(
-          response.data.id,
+          response.data.group_id,
           values.name,
           array,
           values.pax
@@ -72,22 +78,13 @@ export default function ManageTasks(props) {
       })
       .catch(function (error) {
         toast({
-          title: "Unable to add " + values.username + ".",
+          title: "Unable to add " + values.name + ".",
           description: error.toString(),
           status: "error",
-          duration: 3000,
+          duration: 1000,
           isClosable: true,
         });
         actions.setSubmitting(false);
-        const newTaskGroup = new TaskGroup(
-          1,
-          values.name,
-          array,
-          values.pax
-        );
-        const newTaskGroups = [...props.proj.taskGroups, newTaskGroup];
-        props.update(newTaskGroups);
-        onClose();
       });
   }
   return (
@@ -107,6 +104,7 @@ export default function ManageTasks(props) {
           start: DateTime.now(),
           end: DateTime.now(),
           assignees: [],
+          completed: false,
         }}
         onSubmit={handleSubmit}
         proj={props.proj}

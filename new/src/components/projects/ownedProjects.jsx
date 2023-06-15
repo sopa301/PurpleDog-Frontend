@@ -48,14 +48,16 @@ export default function OwnedProjects(props) {
     async function deleteProject() {
       await axios
         .delete(import.meta.env.VITE_API_URL + "/project", {
-          user_id: localStorage.getItem("user_id"),
-          proj_id: proj.proj_id,
+          data: {
+            user_id: localStorage.getItem("user_id"),
+            proj_id: proj.proj_id,
+          },
         })
         .then(function (response) {
           props.toast({
             title: proj.proj_name + " deleted.",
             status: "success",
-            duration: 9000,
+            duration: 1000,
             isClosable: true,
           });
           props.setArray((x) => [
@@ -68,7 +70,7 @@ export default function OwnedProjects(props) {
             title: "Unable to delete project.",
             description: getErrorMessageDP(error),
             status: "error",
-            duration: 9000,
+            duration: 1000,
             isClosable: true,
           });
         });
@@ -106,7 +108,7 @@ export default function OwnedProjects(props) {
         props.toast({
           title: values.name + " created.",
           status: "success",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
         onClose();
@@ -120,7 +122,7 @@ export default function OwnedProjects(props) {
           title: "Unable to create project.",
           description: error.toString(),
           status: "error",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
         actions.setSubmitting(false);
@@ -138,12 +140,12 @@ export default function OwnedProjects(props) {
         props.toast({
           title: "Changed name of " + oldName + " to " + values.name,
           status: "success",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
         onClose();
         const index = props.array.indexOf(
-          projectArray.filter((x) => x.proj_id === activeId.current)
+          props.array.filter((x) => x.proj_id === activeId.current)[0]
         );
         props.setArray((x) => [
           ...x.slice(0, index),
@@ -156,7 +158,7 @@ export default function OwnedProjects(props) {
           title: "Unable to change project name.",
           description: getErrorMessageEP(error),
           status: "error",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
         actions.setSubmitting(false);

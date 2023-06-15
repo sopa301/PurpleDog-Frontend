@@ -27,7 +27,7 @@ export default function ProjectPage(props) {
         title: "Loading project from database...",
         description: "",
         status: "info",
-        duration: 9000,
+        duration: 1000,
         isClosable: true,
     });
       axios.post(process.env.REACT_APP_API_URL + '/retrieveproject', {
@@ -45,7 +45,7 @@ export default function ProjectPage(props) {
               title: "Project loaded.",
               description: "",
               status: "success",
-              duration: 9000,
+              duration: 1000,
               isClosable: true,
             });
           } catch {
@@ -53,7 +53,7 @@ export default function ProjectPage(props) {
               title: "Unable to load project, exiting...",
               description: "",
               status: "error",
-              duration: 9000,
+              duration: 1000,
               isClosable: true,
             });
             back();
@@ -66,7 +66,7 @@ export default function ProjectPage(props) {
           title: "Unable to load project.",
           description: error.toString(),
           status: "error",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
       });
@@ -92,7 +92,7 @@ export default function ProjectPage(props) {
         title: "Project saved.",
         description: "",
         status: "success",
-        duration: 9000,
+        duration: 1000,
         isClosable: true,
       });
       return true;
@@ -102,7 +102,7 @@ export default function ProjectPage(props) {
         title: "Unable to save project.",
         description: error.toString(),
         status: "error",
-        duration: 9000,
+        duration: 1000,
         isClosable: true,
       });
       return false;

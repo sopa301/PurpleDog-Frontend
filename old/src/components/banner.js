@@ -6,7 +6,7 @@ export default function Banner(props) {
       title: "Successfully logged out.",
       description: "",
       status: "success",
-      duration: 9000,
+      duration: 1000,
       isClosable: true,
     });
     props.logout();

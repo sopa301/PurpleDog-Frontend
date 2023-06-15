@@ -23,7 +23,7 @@ export default function App(props) {
             title: "Invalid token.",
             description: "Please log in again.",
             status: "error",
-            duration: 9000,
+            duration: 1000,
             isClosable: true,
           });
           logout();
@@ -33,7 +33,7 @@ export default function App(props) {
         title: "Invalid token.",
         description: "Please log in again.",
         status: "error",
-        duration: 9000,
+        duration: 1000,
         isClosable: true,
       });
       logout();

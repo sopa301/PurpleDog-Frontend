@@ -20,7 +20,7 @@ export default function ErrorPage() {
           <Heading>Oops!</Heading>
           <Text>Sorry, an unexpected error has occurred.</Text>
           <Text>{error.statusText || error.message}</Text>
-          <Image boxSize="192px" src="../../../public/purpledog192.png" />
+          <Image boxSize="192px" src="../../../purpledog192.png" />
           <Button>
             <Link to="/">Return to Home</Link>
           </Button>

@@ -41,7 +41,7 @@ export default function ManagePeople(props) {
         toast({
           title: values.username + " added to project.",
           status: "success",
-          duration: 3000,
+          duration: 1000,
           isClosable: true,
         });
         const newPerson = new Person(
@@ -52,21 +52,18 @@ export default function ManagePeople(props) {
         );
         const newPeople = [...props.proj.people, newPerson];
         props.update(newPeople);
+        setPeople(newPeople.map(mapPeople));
         onClose();
       })
       .catch(function (error) {
         toast({
           title: "Unable to add " + values.username + ".",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
-          duration: 3000,
+          duration: 1000,
           isClosable: true,
         });
         actions.setSubmitting(false);
-        // const newPerson = new Person(2, values.username, [], values.role);
-        // const newPeople = [...props.proj.people, newPerson];
-        // props.update(newPeople);
-        // onClose();
       });
   }
 
@@ -85,4 +82,17 @@ export default function ManagePeople(props) {
       />
     </Box>
   );
+}
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
+  if (status === 403) {
+    return "Person already added.";
+  }
+  if (status === 404) {
+    return "Person not found.";
+  }
+  return "Unknown error.";
 }

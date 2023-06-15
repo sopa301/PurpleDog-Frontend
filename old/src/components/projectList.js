@@ -38,7 +38,7 @@ export default function ProjectList(props) {
             title: "Unable to retrieve data.",
             description: error.toString(),
             status: "error",
-            duration: 9000,
+            duration: 1000,
             isClosable: true,
         });
         setArrayEffect([]);
@@ -58,7 +58,7 @@ export default function ProjectList(props) {
                 title: proj.toString() + " deleted.",
                 description: "",
                 status: "success",
-                duration: 9000,
+                duration: 1000,
                 isClosable: true,
             });
             setUpdate(!update);
@@ -68,7 +68,7 @@ export default function ProjectList(props) {
                 title: "Unable to delete project.",
                 description: error.toString(),
                 status: "error",
-                duration: 9000,
+                duration: 1000,
                 isClosable: true,
             });
         });
@@ -89,7 +89,7 @@ export default function ProjectList(props) {
             title: values.name + " created.",
             description: "",
             status: "success",
-            duration: 9000,
+            duration: 1000,
             isClosable: true,
         });
         setUpdate(!update);
@@ -100,7 +100,7 @@ export default function ProjectList(props) {
             title: "Unable to create project.",
             description: error.toString(),
             status: "error",
-            duration: 9000,
+            duration: 1000,
             isClosable: true,
         });
         actions.setSubmitting(false);
