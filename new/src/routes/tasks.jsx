@@ -8,6 +8,7 @@ import {
   AccordionPanel,
   Box,
   Heading,
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
 import Loading from "../components/custom/loading";
@@ -35,7 +36,7 @@ export default function Tasks(props) {
           title: "Unable to load tasks",
           description: getErrorMessage(error),
           status: "error",
-          duration: 3000,
+          duration: 1000,
           isClosable: true,
         });
       });
@@ -57,9 +58,13 @@ export default function Tasks(props) {
     <Box paddingX="5px">
       <Heading paddingX="5px">My Tasks</Heading>
       {tasks ? (
-        <Accordion allowMultiple="true" defaultIndex={[-1]} padding="5px">
-          {tasks}
-        </Accordion>
+        tasks.length > 0 ? (
+          <Accordion allowMultiple="true" defaultIndex={[-1]} padding="5px">
+            {tasks}
+          </Accordion>
+        ) : (
+          <Text>No tasks!</Text>
+        )
       ) : (
         <Loading />
       )}

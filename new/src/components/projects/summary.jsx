@@ -11,6 +11,7 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
+import Loading from "../custom/loading";
 
 export default function Summary(props) {
   const proj = props.proj;
@@ -21,10 +22,12 @@ export default function Summary(props) {
     }
   }, [proj]);
 
-  return (
+  return summary ? (
     <Accordion allowMultiple="true" defaultIndex={[-1]}>
       {summary}
     </Accordion>
+  ) : (
+    <Loading />
   );
 }
 
@@ -45,7 +48,7 @@ function convertToSummary(proj) {
     taskGroups = addTasks(taskGroups, tg, null);
   }
   array[index] = {
-    person: { name: "Unassigned", id: -1, unassigned: true},
+    person: { name: "Unassigned", id: -1, unassigned: true },
     taskGroups: taskGroups,
   };
   return array;
@@ -58,12 +61,7 @@ function addTasks(array, taskGroup, id) {
   for (const task of taskGroup.tasks) {
     if (Number(task.user_id) === Number(id)) {
       out.push(
-        new TaskGroup(
-          taskGroup.id,
-          taskGroup.name,
-          [task],
-          taskGroup.pax
-        )
+        new TaskGroup(taskGroup.id, taskGroup.name, [task], taskGroup.pax)
       );
     }
   }
@@ -78,7 +76,11 @@ function mapSummary(obj) {
             {obj.person.name}
           </Box>
           <Spacer />
-          {!obj.person.unassigned ? <Box>{TaskGroup.getArrayWorkload(obj.taskGroups) + " minutes"}</Box> : <div/>}
+          {!obj.person.unassigned ? (
+            <Box>{TaskGroup.getArrayWorkload(obj.taskGroups) + " minutes"}</Box>
+          ) : (
+            <div />
+          )}
           <AccordionIcon />
         </Flex>
       </AccordionButton>
@@ -86,7 +88,7 @@ function mapSummary(obj) {
         {obj.taskGroups.length > 0 ? (
           obj.taskGroups.map(mapTaskGroup)
         ) : (
-          <Text as='i'>No Tasks</Text>
+          <Text as="i">No Tasks</Text>
         )}
       </AccordionPanel>
     </AccordionItem>

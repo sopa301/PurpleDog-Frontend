@@ -17,6 +17,7 @@ import {
   Select,
   Text,
   Box,
+  Checkbox,
 } from "@chakra-ui/react";
 import { Field, Form, FieldArray, Formik } from "formik";
 import { DateTimeField } from "@mui/x-date-pickers";
@@ -119,7 +120,7 @@ export default function TaskMenu(props) {
                               }
                             >
                               {props.proj.people.map((person, index) => (
-                                <option value={person.id}>{person.name}</option>
+                                <option key={person.id} value={person.id}>{person.name}</option>
                               ))}
                             </Select>
                           </Box>
@@ -133,7 +134,11 @@ export default function TaskMenu(props) {
                         <FormLabel>Priority</FormLabel>
                         <RadioGroup
                           onChange={(val) =>
-                            formik.setFieldValue("priority", val, false)
+                            formik.setFieldValue(
+                              "priority",
+                              val.target.value,
+                              false
+                            )
                           }
                           value={formik.values.priority}
                         >
@@ -153,7 +158,11 @@ export default function TaskMenu(props) {
                         <DateTimeField
                           format="dd/MM/yyyy hh:mm a"
                           onChange={(val) => {
-                            formik.setFieldValue("start", val, true);
+                            formik.setFieldValue(
+                              "start",
+                              val.target.value,
+                              true
+                            );
                           }}
                           value={formik.values.start}
                           label="Start Time"
@@ -164,7 +173,7 @@ export default function TaskMenu(props) {
                         <DateTimeField
                           format="dd/MM/yyyy hh:mm a"
                           onChange={(val) => {
-                            formik.setFieldValue("end", val, true);
+                            formik.setFieldValue("end", val.target.value, true);
                           }}
                           value={formik.values.end}
                           label="End Time"
@@ -175,6 +184,20 @@ export default function TaskMenu(props) {
                       </FormControl>
                     )}
                   </Field>
+                  <br />
+                  <Field name="completed">
+                    {({ field, form }) => (
+                      <Checkbox
+                        isChecked={formik.values.completed}
+                        onChange={(val) => {
+                          formik.setFieldValue("completed", !formik.values.completed);
+                        }}
+                      >
+                        Completed
+                      </Checkbox>
+                    )}
+                  </Field>
+                  <br />
                   <Button
                     mt={4}
                     colorScheme="teal"

@@ -32,7 +32,7 @@ function validateToken(token, navFn, user_id, username, toastFn) {
           title: "Please log in again.",
           description: getErrorMessage(error),
           status: "error",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
         // navFn("/login");
@@ -42,7 +42,7 @@ function validateToken(token, navFn, user_id, username, toastFn) {
       title: "Please log in again.",
       description: "Missing credentials.",
       status: "error",
-      duration: 9000,
+      duration: 1000,
       isClosable: true,
     });
     navFn("/login");

@@ -52,7 +52,7 @@ export default function LoginForm(props) {
           title: "Login Failed.",
           description: getErrorMessage(error),
           status: "error",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
       });

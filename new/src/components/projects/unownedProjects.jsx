@@ -7,6 +7,7 @@ import {
   Spacer,
   Card,
   Container,
+  Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -37,5 +38,17 @@ export default function UnownedProjects(props) {
       </ListItem>
     );
   }
-  return <Box>{projects ? <List>{projects}</List> : <Loading />}</Box>;
+  return (
+    <Box>
+      {projects ? (
+        projects.length > 0 ? (
+          <List>{projects}</List>
+        ) : (
+          <Text>No projects here!</Text>
+        )
+      ) : (
+        <Loading />
+      )}
+    </Box>
+  );
 }

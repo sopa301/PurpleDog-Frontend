@@ -64,7 +64,7 @@ export default function SignUpComponent(props) {
           title: "Signed up successfully!",
           description: "",
           status: "success",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
         return true;
@@ -74,7 +74,7 @@ export default function SignUpComponent(props) {
           title: "Sign up failed.",
           description: getErrorMessage(error),
           status: "error",
-          duration: 9000,
+          duration: 1000,
           isClosable: true,
         });
         return false;

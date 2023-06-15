@@ -50,7 +50,7 @@ export default function TaskSettings(props) {
         null,
         interval,
         values.assignees[i],
-        "idk",
+        values.completed,
         props.proj.id,
         values.priority,
         props.taskGroup.id,
@@ -67,10 +67,12 @@ export default function TaskSettings(props) {
         toast({
           title: "Task settings edited.",
           status: "success",
-          duration: 3000,
+          duration: 1000,
           isClosable: true,
         });
-        // might have issues with keys in taskmenu
+        for (let i = 0; i < array.length; i++) {
+          array[i].task_id = response.data.id_array[i];
+        }
         const newTaskGroup = new TaskGroup(
           props.taskGroup.id,
           values.name,
@@ -93,7 +95,7 @@ export default function TaskSettings(props) {
           title: "Unable to edit task settings.",
           description: error.toString(),
           status: "error",
-          duration: 3000,
+          duration: 1000,
           isClosable: true,
         });
         const newTaskGroup = new TaskGroup(
@@ -117,13 +119,15 @@ export default function TaskSettings(props) {
   async function handleDelete() {
     await axios
       .delete(import.meta.env.VITE_API_URL + "/taskgroup", {
-        group_id: props.taskGroup.id,
+        data: {
+          group_id: props.taskGroup.id,
+        },
       })
       .then(function (response) {
         toast({
           title: props.taskGroup.name + " removed from project.",
           status: "success",
-          duration: 3000,
+          duration: 1000,
           isClosable: true,
         });
         const newTaskGroup = [
@@ -141,19 +145,10 @@ export default function TaskSettings(props) {
           title: "Unable to remove " + props.taskGroup.name,
           description: error.toString(),
           status: "error",
-          duration: 3000,
+          duration: 1000,
           isClosable: true,
         });
-        // actions.setSubmitting(false);
-        const newTaskGroup = [
-          ...props.proj.taskGroups.slice(0, props.index),
-          ...props.proj.taskGroups.slice(
-            props.index + 1,
-            props.proj.taskGroups.length
-          ),
-        ];
-        props.update(newTaskGroup);
-        onClose();
+        actions.setSubmitting(false);
       });
   }
   return (
