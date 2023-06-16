@@ -35,7 +35,7 @@ function validateToken(token, navFn, user_id, username, toastFn) {
           duration: 1000,
           isClosable: true,
         });
-        // navFn("/login");
+        navFn("/login");
       });
   } else {
     toastFn({

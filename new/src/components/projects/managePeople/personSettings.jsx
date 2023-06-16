@@ -56,6 +56,8 @@ export default function PersonSettings(props) {
             ),
           ];
           props.update(newPeople);
+          props.setPeople(newPeople.map(props.mapPeople));
+          setVal(newVal);
         })
         .catch(function (error) {
           toast({
