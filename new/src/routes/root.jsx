@@ -38,7 +38,7 @@ function validateToken(token, navFn, user_id, username, toastFn) {
         navFn("/login");
       });
   } else {
-    if (!token && !username && !user_id) {
+    if (!(!token && !username && !user_id)) {
       toastFn({
         title: "Please log in again.",
         description: "Missing credentials.",
