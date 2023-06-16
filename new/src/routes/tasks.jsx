@@ -46,7 +46,7 @@ export default function Tasks(props) {
     return (
       <AccordionItem key={task.taskGroup.tasks[0].id}>
         <AccordionButton>
-          {task.taskGroup}
+          {task.taskGroup.name}
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel>{task.projName}</AccordionPanel>
