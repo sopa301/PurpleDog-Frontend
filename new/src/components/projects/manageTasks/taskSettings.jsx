@@ -44,6 +44,7 @@ export default function TaskSettings(props) {
   }
   async function handleEdit(values, actions) {
     const array = [];
+    const outArray = [];
     const interval = Interval.fromDateTimes(values.start, values.end);
     for (let i = 0; i < values.assignees.length; i++) {
       array[i] = new Task(
@@ -56,12 +57,13 @@ export default function TaskSettings(props) {
         props.taskGroup.id,
         values.assignees[i] ? true : false
       );
+      outArray[i] = array[i].toJSONable();
     }
     axios
       .patch(import.meta.env.VITE_API_URL + "/taskgroup", {
         group_id: props.taskGroup.id,
         pax: values.pax,
-        tasks_arr_JSON: array,
+        tasks_arr_JSON: outArray,
       })
       .then(function (response) {
         toast({
@@ -186,8 +188,8 @@ export default function TaskSettings(props) {
           name: props.taskGroup.name,
           pax: props.taskGroup.pax,
           priority: 0,
-          // start: props.taskGroup.tasks[0].interval.start,
-          // end: props.taskGroup.tasks[0].interval.end,
+          start: props.taskGroup.tasks[0].interval.start,
+          end: props.taskGroup.tasks[0].interval.end,
           assignees: props.taskGroup.tasks.map((x) => x.user_id),
         }}
         onSubmit={handleEdit}

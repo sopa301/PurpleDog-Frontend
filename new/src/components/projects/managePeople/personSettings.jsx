@@ -149,6 +149,7 @@ export default function PersonSettings(props) {
           array={avails}
           setArray={updateAvails}
           person={props.person}
+          project_id={props.proj.id}
         />
       </AccordionPanel>
     </AccordionItem>

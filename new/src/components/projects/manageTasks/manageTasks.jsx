@@ -33,6 +33,7 @@ export default function ManageTasks(props) {
   }
   async function handleSubmit(values, actions) {
     const array = [];
+    const outArray = [];
     const interval = Interval.fromDateTimes(values.start, values.end);
     for (let i = 0; i < values.assignees.length; i++) {
       array[i] = new Task(
@@ -44,14 +45,15 @@ export default function ManageTasks(props) {
         values.priority,
         null,
         values.assignees[i] ? true : false
-      ).toJSONable();
+      );
+      outArray[i] = array[i].toJSONable();
     }
-    // console.log(array)
+    console.log(array)
     await axios
       .put(import.meta.env.VITE_API_URL + "/taskgroup", {
         project_id: props.proj.id,
         pax: values.pax,
-        task_arr_JSON: array,
+        task_arr_JSON: outArray,
         task_group_name: values.name,
       })
       .then(function (response) {
