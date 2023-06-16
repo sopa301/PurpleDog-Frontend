@@ -109,6 +109,7 @@ export default function AvailList(props) {
       .put(import.meta.env.VITE_API_URL + "/avail", {
         user_id: props.person.id,
         interval: interval.toISO({ suppressSeconds: true }),
+        project_id: props.project_id,
       })
       .then(function (response) {
         toast({
@@ -141,6 +142,7 @@ export default function AvailList(props) {
       .patch(import.meta.env.VITE_API_URL + "/avail", {
         user_id: props.person.id,
         interval: interval.toISO({ suppressSeconds: true }),
+        project_id: props.project_id,
       })
       .then(function (response) {
         toast({
