@@ -61,7 +61,6 @@ export default function ManageTasks(props) {
           duration: 1000,
           isClosable: true,
         });
-        // might have issues with keys in taskmenu
         for (let i = 0; i < array.length; i++) {
           array[i].task_id = response.data.id_array[i];
           array[i].group_id = response.data.group_id;

@@ -36,7 +36,7 @@ export class TaskGroup {
     for (let i = 0; i < object.tasks.length; i++) {
       outTasks[i] = Task.fromJSONable(object.tasks[i]);
     }
-    return new TaskGroup(this.id, this.name, outTasks, this.pax);
+    return new TaskGroup(object.id, object.name, outTasks, object.pax);
   }
   static getArrayWorkload(array) {
     let out = 0;
