@@ -136,10 +136,7 @@ export default function TaskMenu(props) {
                         <FormLabel>Priority</FormLabel>
                         <RadioGroup
                           onChange={(val) => {
-                            formik.setFieldValue(
-                              "priority",
-                              Number(val)
-                            );
+                            formik.setFieldValue("priority", Number(val));
                           }}
                           value={field.value}
                         >
