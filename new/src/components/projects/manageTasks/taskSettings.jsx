@@ -38,7 +38,7 @@ export default function TaskSettings(props) {
       )[0].name;
       out = <Text key={task.task_id}>{name}</Text>;
     } else {
-      out = <Box key={task.id} />;
+      out = <Box key={task.task_id} />;
     }
     return out;
   }
@@ -90,6 +90,7 @@ export default function TaskSettings(props) {
             props.proj.taskGroups.length
           ),
         ];
+        setTasks(newTaskGroups.map(mapTG));
         props.update(newTaskGroups);
         onClose();
       })
@@ -115,6 +116,7 @@ export default function TaskSettings(props) {
             props.proj.taskGroups.length
           ),
         ];
+        setTasks(newTaskGroups.map(mapTG));
         props.update(newTaskGroups);
         onClose();
       });

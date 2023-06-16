@@ -1,4 +1,4 @@
-import { DateTime } from "luxon";
+import { DateTime, Interval } from "luxon";
 import { AvailabilityJSONable } from "./availabilityJSONable";
 
 export class Availability {

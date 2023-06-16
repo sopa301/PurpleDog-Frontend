@@ -123,7 +123,7 @@ export default function AvailList(props) {
         onClose();
         props.setArray((x) => [
           ...x,
-          new Availability(response.data.interval_id, interval),
+          new Availability(response.data.avail_id, interval),
         ]);
       })
       .catch(function (error) {
@@ -142,9 +142,9 @@ export default function AvailList(props) {
     await axios
       .patch(import.meta.env.VITE_API_URL + "/avail", {
         user_id: props.person.id,
-        avail_JSON: new AvailabilityJSONable(activeAvail.id, interval.toISO({ suppressSeconds: true })),
+        avail_JSON: new AvailabilityJSONable(activeAvail.current.id, interval.toISO({ suppressSeconds: true })),
         project_id: props.project_id,
-        avail_id: activeAvail.id,
+        avail_id: activeAvail.current.id,
       })
       .then(function (response) {
         toast({
