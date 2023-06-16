@@ -63,7 +63,8 @@ export default function TaskSettings(props) {
       .patch(import.meta.env.VITE_API_URL + "/taskgroup", {
         group_id: props.taskGroup.id,
         pax: values.pax,
-        tasks_arr_JSON: outArray,
+        task_arr_JSON: outArray,
+        task_group_name: values.name,
       })
       .then(function (response) {
         toast({
@@ -154,7 +155,7 @@ export default function TaskSettings(props) {
       });
   }
   return (
-    <AccordionItem>
+    <AccordionItem key={props.taskGroup.id}>
       <AccordionButton padding="5px">
         <Flex w="100%">
           <Box textAlign="left" fontWeight="semibold">
@@ -191,6 +192,7 @@ export default function TaskSettings(props) {
           start: props.taskGroup.tasks[0].interval.start,
           end: props.taskGroup.tasks[0].interval.end,
           assignees: props.taskGroup.tasks.map((x) => x.user_id),
+          completed: props.taskGroup.tasks[0].isCompleted,
         }}
         onSubmit={handleEdit}
       />
