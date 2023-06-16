@@ -53,13 +53,13 @@ export default function TaskSettings(props) {
         values.assignees[i],
         values.completed,
         props.proj.id,
-        values.priority,
+        Number(values.priority),
         props.taskGroup.id,
         values.assignees[i] ? true : false
       );
       outArray[i] = array[i].toJSONable();
     }
-    axios
+    await axios
       .patch(import.meta.env.VITE_API_URL + "/taskgroup", {
         group_id: props.taskGroup.id,
         pax: values.pax,
@@ -102,23 +102,7 @@ export default function TaskSettings(props) {
           duration: 1000,
           isClosable: true,
         });
-        const newTaskGroup = new TaskGroup(
-          props.taskGroup.id,
-          values.name,
-          array,
-          values.pax
-        );
-        const newTaskGroups = [
-          ...props.proj.taskGroups.slice(0, props.index),
-          newTaskGroup,
-          ...props.proj.taskGroups.slice(
-            props.index + 1,
-            props.proj.taskGroups.length
-          ),
-        ];
-        setTasks(newTaskGroups.map(mapTG));
-        props.update(newTaskGroups);
-        onClose();
+        actions.setSubmitting(false);
       });
   }
   async function handleDelete() {
@@ -190,7 +174,7 @@ export default function TaskSettings(props) {
         initialValues={{
           name: props.taskGroup.name,
           pax: props.taskGroup.pax,
-          priority: 0,
+          priority: props.taskGroup.tasks[0].task_priority,
           start: props.taskGroup.tasks[0].interval.start,
           end: props.taskGroup.tasks[0].interval.end,
           assignees: props.taskGroup.tasks.map((x) => x.user_id),
