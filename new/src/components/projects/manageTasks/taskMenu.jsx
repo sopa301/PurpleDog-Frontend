@@ -135,14 +135,17 @@ export default function TaskMenu(props) {
                       <FormControl>
                         <FormLabel>Priority</FormLabel>
                         <RadioGroup
-                          onChange={(val) =>
+                          onChange={(val) => {
+                            if (!val) {
+                              return;
+                            }
+                            field.value = val;
                             formik.setFieldValue(
                               "priority",
-                              val.target.value,
-                              false
-                            )
-                          }
-                          value={formik.values.priority}
+                              val
+                            );
+                          }}
+                          value={field.value}
                         >
                           <Stack direction="row">
                             <Radio value={2}>Low</Radio>
@@ -178,6 +181,9 @@ export default function TaskMenu(props) {
                         <DateTimeField
                           format="dd/MM/yyyy hh:mm a"
                           onChange={(val) => {
+                            if (!val || !val.target) {
+                              return;
+                            }
                             formik.setFieldValue("end", val.target.value, true);
                           }}
                           value={formik.values.end}

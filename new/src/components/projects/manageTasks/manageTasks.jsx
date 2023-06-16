@@ -42,7 +42,7 @@ export default function ManageTasks(props) {
         values.assignees[i],
         values.completed,
         props.proj.id,
-        values.priority,
+        Number(values.priority),
         null,
         values.assignees[i] ? true : false
       );
