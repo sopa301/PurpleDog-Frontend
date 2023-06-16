@@ -9,5 +9,5 @@ export default defineConfig({
       loader: { '.js': 'jsx' },
     },
   },
-  base: "/UWUbital-Frontend/",
+  base: "./",
 })
