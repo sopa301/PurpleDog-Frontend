@@ -7,6 +7,7 @@ import { DateTime, Interval } from "luxon";
 import { TaskGroup } from "../../../objects/taskGroup";
 import { Task } from "../../../objects/task";
 import axios from "axios";
+import CButton from "../../custom/cButton";
 
 export default function ManageTasks(props) {
   const toast = useContext(ToastContext);
@@ -48,7 +49,7 @@ export default function ManageTasks(props) {
       );
       outArray[i] = array[i].toJSONable();
     }
-    console.log(array)
+    // console.log(array)
     await axios
       .put(import.meta.env.VITE_API_URL + "/taskgroup", {
         project_id: props.proj.id,
@@ -90,10 +91,13 @@ export default function ManageTasks(props) {
   }
   return (
     <Box>
-      <Accordion allowMultiple="true" defaultIndex={[-1]}>
+      <Accordion allowMultiple="true" defaultIndex={[-1]} paddingY="5px">
         {taskGroups}
       </Accordion>
-      <Button onClick={onOpen}>Add Task</Button>
+      <Box>
+        <Button onClick={onOpen}>Add Task</Button>
+        <CButton content="Auto-Assign" onClick={async () => {}} children={{padding:"5px"}}/>
+      </Box>
       <TaskMenu
         isOpen={isOpen}
         onClose={onClose}
