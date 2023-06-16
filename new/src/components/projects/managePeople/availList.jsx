@@ -17,6 +17,7 @@ import { Availability } from "../../../objects/availability";
 import axios from "axios";
 import { ToastContext } from "../../../main";
 import CButton from "../../custom/cButton";
+import { AvailabilityJSONable } from "../../../objects/availabilityJSONable";
 
 export default function AvailList(props) {
   const toast = useContext(ToastContext);
@@ -108,7 +109,7 @@ export default function AvailList(props) {
     await axios
       .put(import.meta.env.VITE_API_URL + "/avail", {
         user_id: props.person.id,
-        interval: interval.toISO({ suppressSeconds: true }),
+        avail_JSON: new AvailabilityJSONable(null, interval.toISO({ suppressSeconds: true })),
         project_id: props.project_id,
       })
       .then(function (response) {
@@ -141,8 +142,9 @@ export default function AvailList(props) {
     await axios
       .patch(import.meta.env.VITE_API_URL + "/avail", {
         user_id: props.person.id,
-        interval: interval.toISO({ suppressSeconds: true }),
+        avail_JSON: new AvailabilityJSONable(activeAvail.id, interval.toISO({ suppressSeconds: true })),
         project_id: props.project_id,
+        avail_id: activeAvail.id,
       })
       .then(function (response) {
         toast({
