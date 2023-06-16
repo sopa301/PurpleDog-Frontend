@@ -55,7 +55,7 @@ export default function AvailList(props) {
       await axios
         .delete(import.meta.env.VITE_API_URL + "/avail", {
           data: {
-            interval_id: avail.id,
+            avail_id: avail.id,
           },
         })
         .then(function (response) {
