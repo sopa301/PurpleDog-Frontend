@@ -5,15 +5,6 @@ import OwnedProjects from "../components/projects/ownedProjects";
 import axios from "axios";
 
 export default function Projects(props) {
-  const testArray = [
-    {
-      proj_id: 1,
-      proj_name:
-        "kekw in soooth i kno3ue3892ye9y23r8w omgggggggggggggggggggggggosadddfhaiushiuahdiu",
-    },
-    { proj_id: 2, proj_name: "lul" },
-  ];
-
   const [ownArray, setOwnArray] = useState();
   const [otherArray, setOtherArray] = useState();
 
