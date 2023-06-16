@@ -9,9 +9,14 @@ import {
   Box,
   Heading,
   Text,
+  Flex,
+  Spacer,
 } from "@chakra-ui/react";
 import axios from "axios";
 import Loading from "../components/custom/loading";
+import { Task } from "../objects/task";
+import { TaskJSONable } from "../objects/taskJSONable";
+import { TaskGroup } from "../objects/taskGroup";
 
 export default function Tasks(props) {
   const toast = useContext(ToastContext);
@@ -22,7 +27,12 @@ export default function Tasks(props) {
         user_id: localStorage.getItem("user_id"),
       })
       .then(function (response) {
-        const data = response.data.tasks;
+        const data = response.data.tasks.map((x) => {
+          return {
+            projName: x.projName,
+            taskGroup: TaskGroup.fromJSONable(x.taskGroup),
+          };
+        });
         data.sort((a, b) => {
           return a.taskGroup.tasks[0].interval.start <
             b.taskGroup.tasks[0].interval.start
@@ -44,12 +54,18 @@ export default function Tasks(props) {
 
   function mapTasks(task) {
     return (
-      <AccordionItem key={task.taskGroup.tasks[0].id}>
+      <AccordionItem key={task.taskGroup.tasks[0].task_id}>
         <AccordionButton>
-          {task.taskGroup.name}
-          <AccordionIcon />
+          <Flex w="100%">
+            {task.taskGroup.name}
+            <Spacer />
+            <AccordionIcon />
+          </Flex>
         </AccordionButton>
-        <AccordionPanel>{task.projName}</AccordionPanel>
+        <AccordionPanel>
+          <Text>{task.projName}</Text>
+          <Text>{task.taskGroup.tasks[0].getInterval()}</Text>
+        </AccordionPanel>
       </AccordionItem>
     );
   }
