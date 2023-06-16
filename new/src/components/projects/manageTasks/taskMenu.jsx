@@ -120,7 +120,9 @@ export default function TaskMenu(props) {
                               }
                             >
                               {props.proj.people.map((person, index) => (
-                                <option key={person.id} value={person.id}>{person.name}</option>
+                                <option key={person.id} value={person.id}>
+                                  {person.name}
+                                </option>
                               ))}
                             </Select>
                           </Box>
@@ -158,6 +160,9 @@ export default function TaskMenu(props) {
                         <DateTimeField
                           format="dd/MM/yyyy hh:mm a"
                           onChange={(val) => {
+                            if (!val || !val.target) {
+                              return;
+                            }
                             formik.setFieldValue(
                               "start",
                               val.target.value,
@@ -190,7 +195,10 @@ export default function TaskMenu(props) {
                       <Checkbox
                         isChecked={formik.values.completed}
                         onChange={(val) => {
-                          formik.setFieldValue("completed", !formik.values.completed);
+                          formik.setFieldValue(
+                            "completed",
+                            !formik.values.completed
+                          );
                         }}
                       >
                         Completed
