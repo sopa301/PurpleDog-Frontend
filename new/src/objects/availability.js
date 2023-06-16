@@ -20,6 +20,6 @@ export class Availability {
     );
   }
   static fromJSONable(object) {
-    return new Availability(this.id, Interval.fromISO(object.interval));
+    return new Availability(object.id, Interval.fromISO(object.interval));
   }
 }

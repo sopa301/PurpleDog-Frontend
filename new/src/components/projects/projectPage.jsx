@@ -35,6 +35,7 @@ export default function ProjectPage(props) {
       .then(function (response) {
         if (response.data.project) {
           setProj(Project.fromJSONable(response.data.project));
+          console.log(response.data.project)
         } else {
           toast({
             title: "Unable to load project.",

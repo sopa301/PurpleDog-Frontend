@@ -186,8 +186,8 @@ export default function TaskSettings(props) {
           name: props.taskGroup.name,
           pax: props.taskGroup.pax,
           priority: 0,
-          start: props.taskGroup.tasks[0].interval.start,
-          end: props.taskGroup.tasks[0].interval.end,
+          // start: props.taskGroup.tasks[0].interval.start,
+          // end: props.taskGroup.tasks[0].interval.end,
           assignees: props.taskGroup.tasks.map((x) => x.user_id),
         }}
         onSubmit={handleEdit}
