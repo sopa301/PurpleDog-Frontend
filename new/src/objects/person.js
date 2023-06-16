@@ -1,4 +1,4 @@
-import { AvailabilityJSONable } from "./availabilityJSONable";
+import { Availability } from "./availability";
 import { PersonJSONable } from "./personJSONable";
 
 export class Person {
@@ -30,7 +30,7 @@ export class Person {
   static fromJSONable(object) {
     const outAvails = [];
     for (let i = 0; i < object.avails.length; i++) {
-      outAvails[i] = AvailabilityJSONable.fromJSONable(object.avails[i]);
+      outAvails[i] = Availability.fromJSONable(object.avails[i]);
     }
     return new Person(object.id, object.name, outAvails, object.role);
   }

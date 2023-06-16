@@ -99,7 +99,7 @@ function mapTaskGroup(tg) {
     <Flex key={tg.tasks[0].task_id}>
       {tg.name}
       <Spacer />
-      {tg.tasks[0].toString()}
+      {tg.tasks[0].getInterval()}
     </Flex>
   );
 }
