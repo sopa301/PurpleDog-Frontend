@@ -25,6 +25,8 @@ import { Interval } from "luxon";
 
 export default function TaskMenu(props) {
   function validate(value) {
+    console.log(value.start);
+    console.log(value.end);
     const error = {};
     // name
     if (!value.name) {
@@ -155,16 +157,9 @@ export default function TaskMenu(props) {
                         <FormLabel>Interval</FormLabel>
                         <DateTimeField
                           format="dd/MM/yyyy hh:mm a"
-                          onChange={(val) => {
-                            if (!val || !val.target) {
-                              return;
-                            }
-                            formik.setFieldValue(
-                              "start",
-                              val.target.value,
-                              true
-                            );
-                          }}
+                          onChange={(val) =>
+                            formik.setFieldValue("start", val, true)
+                          }
                           value={formik.values.start}
                           label="Start Time"
                         />
@@ -173,12 +168,9 @@ export default function TaskMenu(props) {
                         </div>
                         <DateTimeField
                           format="dd/MM/yyyy hh:mm a"
-                          onChange={(val) => {
-                            if (!val || !val.target) {
-                              return;
-                            }
-                            formik.setFieldValue("end", val.target.value, true);
-                          }}
+                          onChange={(val) =>
+                            formik.setFieldValue("end", val, true)
+                          }
                           value={formik.values.end}
                           label="End Time"
                         />

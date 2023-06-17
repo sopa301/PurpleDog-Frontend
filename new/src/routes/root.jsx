@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { Box, useEditable } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import axios from "axios";
 import Banner from "../components/main/banner";
 import { useEffect } from "react";

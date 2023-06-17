@@ -96,7 +96,11 @@ export default function ManageTasks(props) {
       </Accordion>
       <Box>
         <Button onClick={onOpen}>Add Task</Button>
-        <CButton content="Auto-Assign" onClick={async () => {}} children={{padding:"5px"}}/>
+        <CButton
+          content="Auto-Assign"
+          onClick={async () => {}}
+          children={{ paddingX: "5px" }}
+        />
       </Box>
       <TaskMenu
         isOpen={isOpen}
