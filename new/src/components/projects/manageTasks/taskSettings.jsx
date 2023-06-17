@@ -36,7 +36,11 @@ export default function TaskSettings(props) {
       const name = props.proj.people.filter(
         (x) => Number(x.id) === Number(task.user_id)
       )[0].name;
-      out = <Text key={task.task_id}>{name}</Text>;
+      out = (
+        <Box key={task.task_id}>
+          <Text as={task.isAssigned ? "" : "mark"}>{name}</Text>
+        </Box>
+      );
     } else {
       out = <Box key={task.task_id} />;
     }

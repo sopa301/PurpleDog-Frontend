@@ -92,7 +92,7 @@ export default function ManageTasks(props) {
   async function runAlgo() {
     axios
       .post(import.meta.env.VITE_API_URL + "/run", {
-        project: props.proj,
+        project: props.proj.toJSONable(),
       })
       .then(function (response) {
         toast({
@@ -101,7 +101,7 @@ export default function ManageTasks(props) {
           duration: 1000,
           isClosable: true,
         });
-        props.update(Project.fromJSONable(response.data.project).taskGroups);
+        props.update(Project.fromJSONable(response.data.projectJSONable).taskGroups);
       })
       .catch(function (error) {
         toast({
