@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { ToastContext } from "../../../main";
-import { Accordion, Box, Button, useDisclosure } from "@chakra-ui/react";
+import { Accordion, Box, Button, Flex, useDisclosure } from "@chakra-ui/react";
 import TaskMenu from "./taskMenu";
 import TaskSettings from "./taskSettings";
 import { DateTime, Interval } from "luxon";
@@ -8,6 +8,7 @@ import { TaskGroup } from "../../../objects/taskGroup";
 import { Task } from "../../../objects/task";
 import axios from "axios";
 import CButton from "../../custom/cButton";
+import { Project } from "../../../objects/project";
 
 export default function ManageTasks(props) {
   const toast = useContext(ToastContext);
@@ -49,7 +50,6 @@ export default function ManageTasks(props) {
       );
       outArray[i] = array[i].toJSONable();
     }
-    // console.log(array)
     await axios
       .put(import.meta.env.VITE_API_URL + "/taskgroup", {
         project_id: props.proj.id,
@@ -89,19 +89,43 @@ export default function ManageTasks(props) {
         actions.setSubmitting(false);
       });
   }
+  async function runAlgo() {
+    axios
+      .post(import.meta.env.VITE_API_URL + "/run", {
+        project: props.proj,
+      })
+      .then(function (response) {
+        toast({
+          title: "Tasks automatically assigned.",
+          status: "success",
+          duration: 1000,
+          isClosable: true,
+        });
+        props.update(Project.fromJSONable(response.data.project).taskGroups);
+      })
+      .catch(function (error) {
+        toast({
+          title: "Could not assign tasks",
+          description: error.toString(),
+          status: "error",
+          duration: 1000,
+          isClosable: true,
+        });
+      });
+  }
   return (
     <Box>
-      <Accordion allowMultiple="true" defaultIndex={[-1]} paddingY="5px">
+      <Accordion allowMultiple="true" defaultIndex={[-1]} paddingY="10px">
         {taskGroups}
       </Accordion>
-      <Box>
-        <Button onClick={onOpen}>Add Task</Button>
-        <CButton
-          content="Auto-Assign"
-          onClick={async () => {}}
-          children={{ paddingX: "5px" }}
-        />
-      </Box>
+      <Flex>
+        <Box paddingX="2.5px">
+          <Button onClick={onOpen}>Add Task</Button>
+        </Box>
+        <Box paddingX="2.5px">
+          <CButton content="Auto-Assign" onClick={runAlgo} />
+        </Box>
+      </Flex>
       <TaskMenu
         isOpen={isOpen}
         onClose={onClose}

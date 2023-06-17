@@ -155,12 +155,16 @@ export default function TaskSettings(props) {
         <Flex align="center">
           <Text>{props.taskGroup.tasks[0].getInterval()}</Text>
           <Spacer />
-          <Button onClick={onOpen}>Edit Task</Button>
-          <CButton
-            children={{ colorScheme: "red", paddingX: "5px" }}
-            content="Remove Task"
-            onClick={handleDelete}
-          />
+          <Box paddingX="2.5px">
+            <Button onClick={onOpen}>Edit Task</Button>
+          </Box>
+          <Box paddingX="2.5px">
+            <CButton
+              children={{ colorScheme: "red" }}
+              content="Remove Task"
+              onClick={handleDelete}
+            />
+          </Box>
         </Flex>
         <Text>{props.taskGroup.pax} pax</Text>
         <Box>Current assignees:</Box>

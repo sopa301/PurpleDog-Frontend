@@ -30,9 +30,11 @@ export default function UnownedProjects(props) {
           <Flex alignItems="center">
             <Container maxWidth="40ch">{proj.proj_name}</Container>
             <Spacer />
-            <Link to={"./" + proj.proj_id}>
-              <Button>Open</Button>
-            </Link>
+            <Box paddingX="2.5px">
+              <Link to={"./" + proj.proj_id}>
+                <Button colorScheme="green" variant="outline">Open</Button>
+              </Link>
+            </Box>
           </Flex>
         </Card>
       </ListItem>
@@ -41,11 +43,13 @@ export default function UnownedProjects(props) {
   return (
     <Box>
       {projects ? (
-        projects.length > 0 ? (
-          <List>{projects}</List>
-        ) : (
-          <Text>No projects here!</Text>
-        )
+        <Box paddingY="10px">
+          {projects.length > 0 ? (
+            <List>{projects}</List>
+          ) : (
+            <Text>No projects here!</Text>
+          )}
+        </Box>
       ) : (
         <Loading />
       )}

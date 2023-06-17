@@ -86,13 +86,29 @@ export default function OwnedProjects(props) {
           <Flex alignItems="center">
             <Container maxWidth="40ch">{proj.proj_name}</Container>
             <Spacer />
-            <Box>
-              <Link to={"./" + proj.proj_id}>
-                <Button>Open</Button>
-              </Link>
-              <CButton content="Edit Name" onClick={handleEdit} />
-              <CButton content="Delete" onClick={deleteProject} />
-            </Box>
+            <Flex>
+              <Box paddingX="2.5px">
+                <Link to={"./" + proj.proj_id}>
+                  <Button colorScheme="green" variant="outline">
+                    Open
+                  </Button>
+                </Link>
+              </Box>
+              <Box paddingX="2.5px">
+                <CButton
+                  content="Edit"
+                  onClick={handleEdit}
+                  children={{ colorScheme: "yellow", variant: "outline" }}
+                />
+              </Box>
+              <Box paddingX="2.5px">
+                <CButton
+                  content="Delete"
+                  onClick={deleteProject}
+                  children={{ colorScheme: "red", variant: "outline" }}
+                />
+              </Box>
+            </Flex>
           </Flex>
         </Card>
       </ListItem>
@@ -169,16 +185,19 @@ export default function OwnedProjects(props) {
     <Box>
       {projects ? (
         <Box>
-          {projects.length > 0 ? (
-            <List>{projects}</List>
-          ) : (
-            <Text>No projects here!</Text>
-          )}
+          <Box paddingY="10px">
+            {projects.length > 0 ? (
+              <List>{projects}</List>
+            ) : (
+              <Text>No projects here!</Text>
+            )}
+          </Box>
           <Button
             onClick={() => {
               setModalSettings(addProj);
               onOpen();
             }}
+            variant="outline"
           >
             Add Project
           </Button>
