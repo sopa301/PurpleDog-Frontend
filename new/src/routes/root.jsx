@@ -15,7 +15,7 @@ export default function Root(props) {
   return (
     <Box>
       <Banner loggedIn={true} toast={props.toast} />
-      <Outlet context={[user]} />
+      <Outlet context={[personName]} />
     </Box>
   );
 }

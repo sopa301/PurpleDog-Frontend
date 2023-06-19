@@ -3,10 +3,10 @@ import { useOutletContext } from "react-router-dom";
 import Profile from "../components/profile";
 
 export default function Home() {
-  const [user] = useOutletContext();
+  const [personName] = useOutletContext();
   return (
     <Box>
-      <Heading>Hello, {user}.</Heading>
+      <Heading>Hello, {personName}.</Heading>
       <Profile />
     </Box>
   );

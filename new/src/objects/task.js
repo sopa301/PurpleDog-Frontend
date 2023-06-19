@@ -59,7 +59,7 @@ export class Task {
     return new Task(
       object.taskId,
       outInterval,
-      object.personIdid,
+      object.personId,
       object.isCompleted,
       object.projectId,
       object.taskPriority,
