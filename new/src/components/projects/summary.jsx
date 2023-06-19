@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TaskGroup } from "../../objects/taskGroup";
+import { TaskGroup } from "../../objects/TaskGroup";
 import {
   Accordion,
   AccordionButton,

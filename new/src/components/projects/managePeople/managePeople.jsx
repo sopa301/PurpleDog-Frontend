@@ -4,7 +4,7 @@ import PersonSettings from "./personSettings";
 import PersonMenu from "./personMenu";
 import axios from "axios";
 import { ToastContext } from "../../../main";
-import { Person } from "../../../objects/person";
+import { Person } from "../../../objects/Person";
 
 export default function ManagePeople(props) {
   const toast = useContext(ToastContext);

@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import Loading from "../components/custom/loading";
-import { TaskGroup } from "../objects/taskGroup";
+import { TaskGroup } from "../objects/TaskGroup";
 
 export default function Tasks(props) {
   const toast = useContext(ToastContext);

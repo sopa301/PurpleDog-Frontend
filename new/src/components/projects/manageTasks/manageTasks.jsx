@@ -4,11 +4,11 @@ import { Accordion, Box, Button, Flex, useDisclosure } from "@chakra-ui/react";
 import TaskMenu from "./taskMenu";
 import TaskSettings from "./taskSettings";
 import { DateTime, Interval } from "luxon";
-import { TaskGroup } from "../../../objects/taskGroup";
+import { TaskGroup } from "../../../objects/TaskGroup";
 import { Task } from "../../../objects/Task";
 import axios from "axios";
 import CButton from "../../custom/cButton";
-import { Project } from "../../../objects/project";
+import { Project } from "../../../objects/Project";
 
 export default function ManageTasks(props) {
   const toast = useContext(ToastContext);

@@ -14,7 +14,7 @@ import { ToastContext } from "../../main";
 import ManageTasks from "./manageTasks/manageTasks";
 import Summary from "./summary";
 import ManagePeople from "./managePeople/managePeople";
-import { Project } from "../../objects/project";
+import { Project } from "../../objects/Project";
 
 export default function ProjectPage(props) {
   const { projectId } = useLoaderData();
