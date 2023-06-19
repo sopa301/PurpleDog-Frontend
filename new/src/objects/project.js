@@ -1,6 +1,6 @@
 import { Person } from "./Person";
-import { TaskGroup } from "./TaskGroup";
 import { ProjectJSONable } from "./ProjectJSONable";
+import { TaskGroup } from "./TaskGroup";
 
 export class Project {
   // projectId is a number
@@ -34,7 +34,12 @@ export class Project {
     for (let i = 0; i < this.taskGroups.length; i++) {
       taskCopy[i] = this.taskGroups[i].toJSONable();
     }
-    return new ProjectJSONable(this.projectId, this.projectName, peopleCopy, taskCopy);
+    return new ProjectJSONable(
+      this.projectId,
+      this.projectName,
+      peopleCopy,
+      taskCopy
+    );
   }
   static fromJSONable(proj) {
     const peopleCopy = [];
@@ -48,4 +53,3 @@ export class Project {
     return new Project(proj.projectId, proj.projectName, peopleCopy, taskCopy);
   }
 }
-
