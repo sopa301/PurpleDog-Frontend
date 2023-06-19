@@ -12,12 +12,12 @@ import {
 } from "@chakra-ui/react";
 import CButton from "../../custom/cButton";
 import { useState, useContext, useEffect } from "react";
-import { Task } from "../../../objects/task";
+import { Task } from "../../../objects/Task";
 import axios from "axios";
 import { ToastContext } from "../../../main";
 import TaskMenu from "./taskMenu";
 import { Interval } from "luxon";
-import { TaskGroup } from "../../../objects/taskGroup";
+import { TaskGroup } from "../../../objects/TaskGroup";
 
 export default function TaskSettings(props) {
   const toast = useContext(ToastContext);

@@ -1,4 +1,4 @@
-import { Person } from "./person";
+import { Person } from "./Person";
 import { TaskGroup } from "./TaskGroup";
 import { ProjectJSONable } from "./ProjectJSONable";
 

@@ -1,4 +1,4 @@
-import { Availability } from "./availability";
+import { Availability } from "./Availability";
 import { PersonJSONable } from "./PersonJSONable";
 
 export class Person {
