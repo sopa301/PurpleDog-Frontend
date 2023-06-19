@@ -56,7 +56,7 @@ export default function SignUpComponent(props) {
   async function signUpFunction(user, pass) {
     return await axios
       .post(import.meta.env.VITE_API_URL + "/signup", {
-        username: user,
+        personName: user,
         password: pass,
       })
       .then(function (response) {
