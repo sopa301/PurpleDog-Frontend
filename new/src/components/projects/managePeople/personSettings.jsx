@@ -62,7 +62,7 @@ export default function PersonSettings(props) {
         .catch(function (error) {
           toast({
             title: "Unable to set role for " + props.person.name + ".",
-            description: error.toString(),
+            description: getErrorMessage(error),
             status: "error",
             duration: 1000,
             isClosable: true,
@@ -95,7 +95,7 @@ export default function PersonSettings(props) {
       .catch(function (error) {
         toast({
           title: "Unable to remove " + props.person.name,
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -156,4 +156,11 @@ export default function PersonSettings(props) {
       </AccordionPanel>
     </AccordionItem>
   );
+}
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
+  return "Unknown error.";
 }

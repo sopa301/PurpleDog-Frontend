@@ -101,7 +101,7 @@ export default function TaskSettings(props) {
       .catch(function (error) {
         toast({
           title: "Unable to edit task settings.",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -136,7 +136,7 @@ export default function TaskSettings(props) {
       .catch(function (error) {
         toast({
           title: "Unable to remove " + props.taskGroup.name,
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -192,4 +192,11 @@ export default function TaskSettings(props) {
       />
     </AccordionItem>
   );
+}
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
+  return "Unknown error.";
 }

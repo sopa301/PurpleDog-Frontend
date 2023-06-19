@@ -9,20 +9,14 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { ToastContext } from "../../main";
 import ManageTasks from "./manageTasks/manageTasks";
 import Summary from "./summary";
 import ManagePeople from "./managePeople/managePeople";
-import { DateTime, Interval } from "luxon";
 import { Project } from "../../objects/project";
-import { Person } from "../../objects/person";
-import { Availability } from "../../objects/availability";
-import { TaskGroup } from "../../objects/taskGroup";
-import { Task } from "../../objects/task";
 
 export default function ProjectPage(props) {
-  const navigate = useNavigate();
   const { proj_id } = useLoaderData();
   const [proj, setProj] = useState();
   const toast = useContext(ToastContext);
@@ -49,7 +43,7 @@ export default function ProjectPage(props) {
       .catch(function (error) {
         toast({
           title: "Unable to load project.",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -131,4 +125,17 @@ function getRole(user_id, project) {
     return "";
   }
   return project.people.filter((x) => Number(x.id) === Number(user_id))[0].role;
+}
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
+  if (status === 404) {
+    return "Project not found.";
+  }
+  if (status === 403) {
+    return "No view rights.";
+  }
+  return "Unknown error.";
 }

@@ -136,7 +136,7 @@ export default function OwnedProjects(props) {
       .catch(function (error) {
         props.toast({
           title: "Unable to create project.",
-          description: error.toString(),
+          description: getErrorMessageCP(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -229,3 +229,10 @@ function getErrorMessageEP(error) {
   let status = error.response.status;
   return "Unknown error.";
 }
+function getErrorMessageCP(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  return "Unknown error.";
+}
+

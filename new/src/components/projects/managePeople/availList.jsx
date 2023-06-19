@@ -61,7 +61,6 @@ export default function AvailList(props) {
         .then(function (response) {
           toast({
             title: "Availability removed.",
-            description: "",
             status: "success",
             duration: 1000,
             isClosable: true,
@@ -74,7 +73,7 @@ export default function AvailList(props) {
         .catch(function (error) {
           toast({
             title: "Unable to remove availability.",
-            description: error.toString(),
+            description: getErrorMessage(error),
             status: "error",
             duration: 1000,
             isClosable: true,
@@ -115,7 +114,6 @@ export default function AvailList(props) {
       .then(function (response) {
         toast({
           title: "Added availability.",
-          description: "",
           status: "success",
           duration: 1000,
           isClosable: true,
@@ -129,7 +127,7 @@ export default function AvailList(props) {
       .catch(function (error) {
         toast({
           title: "Unable to add availability.",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -149,7 +147,6 @@ export default function AvailList(props) {
       .then(function (response) {
         toast({
           title: "Edited availability.",
-          description: "",
           status: "success",
           duration: 1000,
           isClosable: true,
@@ -167,7 +164,7 @@ export default function AvailList(props) {
       .catch(function (error) {
         toast({
           title: "Unable to edit availability.",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -186,4 +183,11 @@ export default function AvailList(props) {
       </Box>
     </div>
   );
+}
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
+  return "Unknown error.";
 }

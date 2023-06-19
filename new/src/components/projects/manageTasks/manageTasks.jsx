@@ -81,7 +81,7 @@ export default function ManageTasks(props) {
       .catch(function (error) {
         toast({
           title: "Unable to add " + values.name + ".",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -101,12 +101,14 @@ export default function ManageTasks(props) {
           duration: 1000,
           isClosable: true,
         });
-        props.update(Project.fromJSONable(response.data.projectJSONable).taskGroups);
+        props.update(
+          Project.fromJSONable(response.data.projectJSONable).taskGroups
+        );
       })
       .catch(function (error) {
         toast({
           title: "Could not assign tasks",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -144,4 +146,11 @@ export default function ManageTasks(props) {
       />
     </Box>
   );
+}
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
+  return "Unknown error.";
 }
