@@ -1,6 +1,7 @@
+import { TaskGroup } from "./TaskGroup";
 import { Person } from "./Person";
 import { ProjectJSONable } from "./ProjectJSONable";
-import { TaskGroup } from "./TaskGroup";
+
 
 export class Project {
   // projectId is a number
