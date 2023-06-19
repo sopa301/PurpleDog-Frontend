@@ -151,7 +151,7 @@ export default function PersonSettings(props) {
           array={avails}
           setArray={updateAvails}
           person={props.person}
-          projectId={props.projectId}
+          projectId={props.proj.projectId}
         />
       </AccordionPanel>
     </AccordionItem>
