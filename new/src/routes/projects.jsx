@@ -15,7 +15,7 @@ export default function Projects(props) {
 
   function getData() {
     axios
-      .post(import.meta.env.VITE_API_URL + "/getprojects", {
+      .post(import.meta.env.VITE_API_URL + "/getProjects", {
         personId: localStorage.getItem("personId"),
       })
       .then(function (response) {
