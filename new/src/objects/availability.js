@@ -1,25 +1,30 @@
 import { DateTime, Interval } from "luxon";
-import { AvailabilityJSONable } from "./availabilityJSONable";
+import { AvailabilityJSONable } from "./AvailabilityJSONable";
 
 export class Availability {
-  // id is a number
+  // availabilityId is a number
   // interval is an Interval object from the Luxon library
-  constructor(id, interval) {
-    this.id = id;
+  constructor(availabilityId, interval) {
+    this.availabilityId = availabilityId;
     this.interval = interval;
   }
-
+  getInterval() {
+    return this.interval;
+  }
+  getAvailabilityId() {
+    return this.availabilityId;
+  }
   toString() {
     return this.interval.toLocaleString(DateTime.DATETIME_MED);
   }
 
   toJSONable() {
     return new AvailabilityJSONable(
-      this.id,
+      this.availabilityId,
       this.interval.toISO({ suppressSeconds: true })
     );
   }
   static fromJSONable(object) {
-    return new Availability(object.id, Interval.fromISO(object.interval));
+    return new Availability(object.availabilityId, Interval.fromISO(object.interval));
   }
 }

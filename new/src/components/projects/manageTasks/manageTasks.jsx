@@ -5,7 +5,7 @@ import TaskMenu from "./taskMenu";
 import TaskSettings from "./taskSettings";
 import { DateTime, Interval } from "luxon";
 import { TaskGroup } from "../../../objects/taskGroup";
-import { Task } from "../../../objects/task";
+import { Task } from "../../../objects/Task";
 import axios from "axios";
 import CButton from "../../custom/cButton";
 import { Project } from "../../../objects/project";
@@ -25,7 +25,7 @@ export default function ManageTasks(props) {
   function mapTaskGroups(taskGroup, index) {
     return (
       <TaskSettings
-        key={taskGroup.id}
+        key={taskGroup.taskGroupId}
         taskGroup={taskGroup}
         index={index}
         update={props.update}
@@ -43,7 +43,7 @@ export default function ManageTasks(props) {
         interval,
         values.assignees[i],
         values.completed,
-        props.proj.id,
+        props.proj.projectId,
         Number(values.priority),
         null,
         values.assignees[i] ? true : false
@@ -52,10 +52,10 @@ export default function ManageTasks(props) {
     }
     await axios
       .put(import.meta.env.VITE_API_URL + "/taskgroup", {
-        project_id: props.proj.id,
+        projectId: props.proj.projectId,
         pax: values.pax,
-        task_arr_JSON: outArray,
-        task_group_name: values.name,
+        taskArrJSON: outArray,
+        taskGroupName: values.name,
       })
       .then(function (response) {
         toast({
@@ -65,11 +65,11 @@ export default function ManageTasks(props) {
           isClosable: true,
         });
         for (let i = 0; i < array.length; i++) {
-          array[i].task_id = response.data.id_array[i];
-          array[i].group_id = response.data.group_id;
+          array[i].taskId = response.data.idArray[i];
+          array[i].taskGroupId = response.data.taskGroupId;
         }
         const newTaskGroup = new TaskGroup(
-          response.data.group_id,
+          response.data.taskGroupId,
           values.name,
           array,
           values.pax
@@ -101,9 +101,7 @@ export default function ManageTasks(props) {
           duration: 1000,
           isClosable: true,
         });
-        props.update(
-          Project.fromJSONable(response.data.projectJSONable).taskGroups
-        );
+        props.update(Project.fromJSONable(response.data.project).taskGroups);
       })
       .catch(function (error) {
         toast({

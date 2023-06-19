@@ -32,17 +32,17 @@ export default function TaskSettings(props) {
   }, [updateEffect]);
   function mapTG(task) {
     let out;
-    if (task.user_id > 0) {
+    if (task.personId > 0) {
       const name = props.proj.people.filter(
-        (x) => Number(x.id) === Number(task.user_id)
-      )[0].name;
+        (x) => Number(x.personId) === Number(task.personId)
+      )[0].personName;
       out = (
-        <Box key={task.task_id}>
+        <Box key={task.taskId}>
           <Text as={task.isAssigned ? "" : "mark"}>{name}</Text>
         </Box>
       );
     } else {
-      out = <Box key={task.task_id} />;
+      out = <Box key={task.taskId} />;
     }
     return out;
   }
@@ -56,19 +56,19 @@ export default function TaskSettings(props) {
         interval,
         values.assignees[i],
         values.completed,
-        props.proj.id,
+        props.proj.projectId,
         Number(values.priority),
-        props.taskGroup.id,
+        props.taskGroup.taskGroupId,
         values.assignees[i] ? true : false
       );
       outArray[i] = array[i].toJSONable();
     }
     await axios
       .patch(import.meta.env.VITE_API_URL + "/taskgroup", {
-        group_id: props.taskGroup.id,
+        taskGroupId: props.taskGroup.taskGroupId,
         pax: values.pax,
-        task_arr_JSON: outArray,
-        task_group_name: values.name,
+        taskArrJSON: outArray,
+        taskGroupName: values.name,
       })
       .then(function (response) {
         toast({
@@ -78,10 +78,10 @@ export default function TaskSettings(props) {
           isClosable: true,
         });
         for (let i = 0; i < array.length; i++) {
-          array[i].task_id = response.data.id_array[i];
+          array[i].taskId = response.data.idArray[i];
         }
         const newTaskGroup = new TaskGroup(
-          props.taskGroup.id,
+          props.taskGroup.taskGroupId,
           values.name,
           array,
           values.pax
@@ -113,12 +113,12 @@ export default function TaskSettings(props) {
     await axios
       .delete(import.meta.env.VITE_API_URL + "/taskgroup", {
         data: {
-          group_id: props.taskGroup.id,
+          taskGroupId: props.taskGroup.taskGroupId,
         },
       })
       .then(function (response) {
         toast({
-          title: props.taskGroup.name + " removed from project.",
+          title: props.taskGroup.taskGroupName + " removed from project.",
           status: "success",
           duration: 1000,
           isClosable: true,
@@ -135,7 +135,7 @@ export default function TaskSettings(props) {
       })
       .catch(function (error) {
         toast({
-          title: "Unable to remove " + props.taskGroup.name,
+          title: "Unable to remove " + props.taskGroup.taskGroupName,
           description: getErrorMessage(error),
           status: "error",
           duration: 1000,
@@ -145,11 +145,11 @@ export default function TaskSettings(props) {
       });
   }
   return (
-    <AccordionItem key={props.taskGroup.id}>
+    <AccordionItem key={props.taskGroup.taskGroupId}>
       <AccordionButton padding="5px">
         <Flex w="100%">
           <Box textAlign="left" fontWeight="semibold">
-            {props.taskGroup.name}
+            {props.taskGroup.taskGroupName}
           </Box>
           <Spacer />
           <AccordionIcon />
@@ -180,12 +180,12 @@ export default function TaskSettings(props) {
         title="Edit Task"
         proj={props.proj}
         initialValues={{
-          name: props.taskGroup.name,
+          name: props.taskGroup.taskGroupName,
           pax: props.taskGroup.pax,
-          priority: props.taskGroup.tasks[0].task_priority,
+          priority: props.taskGroup.tasks[0].taskPriority,
           start: props.taskGroup.tasks[0].interval.start,
           end: props.taskGroup.tasks[0].interval.end,
-          assignees: props.taskGroup.tasks.map((x) => x.user_id),
+          assignees: props.taskGroup.tasks.map((x) => x.personId),
           completed: props.taskGroup.tasks[0].isCompleted,
         }}
         onSubmit={handleEdit}

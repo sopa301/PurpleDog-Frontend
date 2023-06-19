@@ -49,13 +49,13 @@ export default function OwnedProjects(props) {
       await axios
         .delete(import.meta.env.VITE_API_URL + "/project", {
           data: {
-            user_id: localStorage.getItem("user_id"),
-            proj_id: proj.proj_id,
+            personId: localStorage.getItem("personId"),
+            projectId: proj.projectId,
           },
         })
         .then(function (response) {
           props.toast({
-            title: proj.proj_name + " deleted.",
+            title: proj.projectName + " deleted.",
             status: "success",
             duration: 1000,
             isClosable: true,
@@ -76,19 +76,19 @@ export default function OwnedProjects(props) {
         });
     }
     async function handleEdit() {
-      activeId.current = proj.proj_id;
-      setModalSettings(editProjFn(proj.proj_name));
+      activeId.current = proj.projectId;
+      setModalSettings(editProjFn(proj.projectName));
       onOpen();
     }
     return (
-      <ListItem key={proj.proj_id}>
+      <ListItem key={proj.projectId}>
         <Card padding="5px">
           <Flex alignItems="center">
-            <Container maxWidth="40ch">{proj.proj_name}</Container>
+            <Container maxWidth="40ch">{proj.projectName}</Container>
             <Spacer />
             <Flex>
               <Box paddingX="2.5px">
-                <Link to={"./" + proj.proj_id}>
+                <Link to={"./" + proj.projectId}>
                   <Button colorScheme="green" variant="outline">
                     Open
                   </Button>
@@ -117,8 +117,8 @@ export default function OwnedProjects(props) {
   async function createProject(values, actions) {
     await axios
       .put(import.meta.env.VITE_API_URL + "/project", {
-        user_id: localStorage.getItem("user_id"),
-        proj_name: values.name,
+        personId: localStorage.getItem("personId"),
+        projectName: values.name,
       })
       .then(function (response) {
         props.toast({
@@ -130,7 +130,7 @@ export default function OwnedProjects(props) {
         onClose();
         props.setArray((x) => [
           ...x,
-          { proj_name: values.name, proj_id: response.data.proj_id },
+          { projectName: values.name, projectId: response.data.projectId },
         ]);
       })
       .catch(function (error) {
@@ -145,12 +145,13 @@ export default function OwnedProjects(props) {
       });
   }
   async function editProject(values, actions) {
-    const oldName = props.array.filter((x) => x.proj_id === activeId.current)[0]
-      .proj_name;
+    const oldName = props.array.filter(
+      (x) => x.projectId === activeId.current
+    )[0].projectName;
     await axios
       .patch(import.meta.env.VITE_API_URL + "/project", {
-        proj_id: activeId.current,
-        proj_name: values.name,
+        projectId: activeId.current,
+        projectName: values.name,
       })
       .then(function (response) {
         props.toast({
@@ -161,11 +162,11 @@ export default function OwnedProjects(props) {
         });
         onClose();
         const index = props.array.indexOf(
-          props.array.filter((x) => x.proj_id === activeId.current)[0]
+          props.array.filter((x) => x.projectId === activeId.current)[0]
         );
         props.setArray((x) => [
           ...x.slice(0, index),
-          { proj_name: values.name, proj_id: activeId.current },
+          { projectName: values.name, projectId: activeId.current },
           ...x.slice(index + 1, x.length),
         ]);
       })
@@ -235,4 +236,3 @@ function getErrorMessageCP(error) {
   }
   return "Unknown error.";
 }
-

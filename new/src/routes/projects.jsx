@@ -16,7 +16,7 @@ export default function Projects(props) {
   function getData() {
     axios
       .post(import.meta.env.VITE_API_URL + "/getprojects", {
-        user_id: localStorage.getItem("user_id"),
+        personId: localStorage.getItem("personId"),
       })
       .then(function (response) {
         setOwnArray(response.data.projects.owned);

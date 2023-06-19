@@ -1,11 +1,11 @@
 export class ProjectJSONable {
-  // id is a number
-  // name is a string
+  // projectId is a number
+  // projectName is a string
   // people is an array of PersonJSONable objects
   // taskGroups is an array of TaskGroupJSONable objects
-  constructor(id, name, people, taskGroups) {
-    this.id = id;
-    this.name = name;
+  constructor(projectId, projectName, people, taskGroups) {
+    this.projectId = projectId;
+    this.projectName = projectName;
     this.people = people;
     this.taskGroups = taskGroups;
   }
@@ -13,7 +13,7 @@ export class ProjectJSONable {
   toString() {
     return (
       "ProjectJSONable " +
-      this.name +
+      this.projectName +
       "\nPeople: " +
       this.people +
       "\n taskGroups: " +

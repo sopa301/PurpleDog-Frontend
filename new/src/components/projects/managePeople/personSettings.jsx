@@ -20,9 +20,9 @@ import AvailList from "./availList";
 export default function PersonSettings(props) {
   const toast = useContext(ToastContext);
   const [val, setVal] = useState(props.person.role);
-  const [avails, setAvails] = useState(props.person.avails);
+  const [avails, setAvails] = useState(props.person.availabilities);
   const [isOwner] = useState(
-    () => props.person.id.toString() === localStorage.getItem("user_id")
+    () => props.person.personId.toString() === localStorage.getItem("personId")
   );
   async function setPerm(newVal) {
     if (val === newVal) {
@@ -30,21 +30,21 @@ export default function PersonSettings(props) {
     } else {
       axios
         .patch(import.meta.env.VITE_API_URL + "/person", {
-          user_id: props.person.id,
-          proj_id: props.proj.id,
+          personId: props.person.personId,
+          projectId: props.projectId,
           role: newVal,
         })
         .then(function (response) {
           toast({
-            title: props.person.name + " set to " + newVal + ".",
+            title: props.person.personName + " set to " + newVal + ".",
             status: "success",
             duration: 1000,
             isClosable: true,
           });
           const newPerson = new Person(
-            props.person.id,
-            props.person.name,
-            props.person.avails,
+            props.person.personId,
+            props.person.personName,
+            props.person.availabilities,
             newVal
           );
           const newPeople = [
@@ -61,7 +61,7 @@ export default function PersonSettings(props) {
         })
         .catch(function (error) {
           toast({
-            title: "Unable to set role for " + props.person.name + ".",
+            title: "Unable to set role for " + props.person.personName + ".",
             description: getErrorMessage(error),
             status: "error",
             duration: 1000,
@@ -75,13 +75,13 @@ export default function PersonSettings(props) {
     axios
       .delete(import.meta.env.VITE_API_URL + "/person", {
         data: {
-          user_id: props.person.id,
-          proj_id: props.proj.id,
+          personId: props.person.personId,
+          projectId: props.projectId,
         },
       })
       .then(function (response) {
         toast({
-          title: props.person.name + " removed.",
+          title: props.person.personName + " removed.",
           status: "success",
           duration: 1000,
           isClosable: true,
@@ -94,7 +94,7 @@ export default function PersonSettings(props) {
       })
       .catch(function (error) {
         toast({
-          title: "Unable to remove " + props.person.name,
+          title: "Unable to remove " + props.person.personName,
           description: getErrorMessage(error),
           status: "error",
           duration: 1000,
@@ -105,8 +105,8 @@ export default function PersonSettings(props) {
   function updateAvails(newAvails) {
     setAvails(newAvails);
     const newPerson = new Person(
-      props.person.id,
-      props.person.name,
+      props.person.personId,
+      props.person.personName,
       newAvails,
       props.person.role
     );
@@ -122,7 +122,7 @@ export default function PersonSettings(props) {
       <AccordionButton padding="5px">
         <Flex w="100%">
           <Box textAlign="left" fontWeight="semibold">
-            {props.person.name}
+            {props.person.personName}
           </Box>
           <Spacer />
           <AccordionIcon />
@@ -151,7 +151,7 @@ export default function PersonSettings(props) {
           array={avails}
           setArray={updateAvails}
           person={props.person}
-          project_id={props.proj.id}
+          projectId={props.projectId}
         />
       </AccordionPanel>
     </AccordionItem>

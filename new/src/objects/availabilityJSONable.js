@@ -1,8 +1,8 @@
 export class AvailabilityJSONable {
-  // id is a number
+  // availabilityId is a number
   // interval is an ISO string
-  constructor(id, interval) {
-    this.id = id;
+  constructor(availabilityId, interval) {
+    this.availabilityId = availabilityId;
     this.interval = interval;
   }
   toString() {

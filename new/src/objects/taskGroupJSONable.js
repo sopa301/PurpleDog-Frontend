@@ -1,16 +1,16 @@
 export class TaskGroupJSONable {
-  // id is number
-  // name is string
+  // taskGroupId is number
+  // taskGroupName is string
   // tasks is a TaskJSONable array
   // pax is a number
-  constructor(id, name, tasks, pax) {
-    this.id = id;
-    this.name = name;
+  constructor(taskGroupId, taskGroupName, tasks, pax) {
+    this.taskGroupId = taskGroupId;
+    this.taskGroupName = taskGroupName;
     this.tasks = tasks;
     this.pax = pax;
   }
   toString() {
-    let out = "Task Group JSON " + this.name + ":\n";
+    let out = "Task Group JSON " + this.taskGroupName + ":\n";
     for (const task of this.tasks) {
       out += task.toString();
     }

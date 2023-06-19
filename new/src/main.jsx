@@ -55,7 +55,7 @@ const router = createBrowserRouter([
             element: <Projects toast={toast} />,
           },
           {
-            path: ":proj_id",
+            path: ":projectId",
             element: <ProjectPage toast={toast} />,
             loader: projLoader,
           },

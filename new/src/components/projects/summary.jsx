@@ -38,7 +38,7 @@ function convertToSummary(proj) {
   for (const person of proj.people) {
     let taskGroups = [];
     for (const tg of proj.taskGroups) {
-      taskGroups = addTasks(taskGroups, tg, person.id);
+      taskGroups = addTasks(taskGroups, tg, person.personId);
     }
     array[index] = { person: person, taskGroups: taskGroups };
     index++;
@@ -48,7 +48,7 @@ function convertToSummary(proj) {
     taskGroups = addTasks(taskGroups, tg, null);
   }
   array[index] = {
-    person: { name: "Unassigned", id: -1, unassigned: true },
+    person: { personName: "Unassigned", personId: -1, unassigned: true },
     taskGroups: taskGroups,
   };
   return array;
@@ -56,12 +56,17 @@ function convertToSummary(proj) {
 
 // Adds taskGroups containing one task which belongs to the id to the array and returns
 // the array
-function addTasks(array, taskGroup, id) {
+function addTasks(array, taskGroup, personId) {
   const out = [...array];
   for (const task of taskGroup.tasks) {
-    if (Number(task.user_id) === Number(id)) {
+    if (Number(task.personId) === Number(personId)) {
       out.push(
-        new TaskGroup(taskGroup.id, taskGroup.name, [task], taskGroup.pax)
+        new TaskGroup(
+          taskGroup.taskGroupId,
+          taskGroup.taskGroupName,
+          [task],
+          taskGroup.pax
+        )
       );
     }
   }
@@ -69,11 +74,11 @@ function addTasks(array, taskGroup, id) {
 }
 function mapSummary(obj) {
   return (
-    <AccordionItem key={obj.person.id}>
+    <AccordionItem key={obj.person.personId}>
       <AccordionButton padding="5px">
         <Flex w="100%">
           <Box textAlign="left" fontWeight="semibold">
-            {obj.person.name}
+            {obj.person.personName}
           </Box>
           <Spacer />
           {!obj.person.unassigned ? (
@@ -96,7 +101,7 @@ function mapSummary(obj) {
 }
 function mapTaskGroup(tg) {
   return (
-    <Flex key={tg.tasks[0].task_id}>
+    <Flex key={tg.tasks[0].taskId}>
       {tg.name}
       <Spacer />
       {tg.tasks[0].getInterval()}

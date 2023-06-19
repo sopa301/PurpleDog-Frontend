@@ -25,14 +25,16 @@ export default function UnownedProjects(props) {
 
   function mapProjects(proj) {
     return (
-      <ListItem key={proj.proj_id}>
+      <ListItem key={proj.projectId}>
         <Card padding="5px">
           <Flex alignItems="center">
-            <Container maxWidth="40ch">{proj.proj_name}</Container>
+            <Container maxWidth="40ch">{proj.projectName}</Container>
             <Spacer />
             <Box paddingX="2.5px">
-              <Link to={"./" + proj.proj_id}>
-                <Button colorScheme="green" variant="outline">Open</Button>
+              <Link to={"./" + proj.projectId}>
+                <Button colorScheme="green" variant="outline">
+                  Open
+                </Button>
               </Link>
             </Box>
           </Flex>

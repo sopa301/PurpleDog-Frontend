@@ -25,8 +25,6 @@ import { Interval } from "luxon";
 
 export default function TaskMenu(props) {
   function validate(value) {
-    console.log(value.start);
-    console.log(value.end);
     const error = {};
     // name
     if (!value.name) {
@@ -122,8 +120,11 @@ export default function TaskMenu(props) {
                               }
                             >
                               {props.proj.people.map((person, index) => (
-                                <option key={person.id} value={person.id}>
-                                  {person.name}
+                                <option
+                                  key={person.personId}
+                                  value={person.personId}
+                                >
+                                  {person.personName}
                                 </option>
                               ))}
                             </Select>

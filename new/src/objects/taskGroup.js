@@ -1,14 +1,14 @@
-import { TaskGroupJSONable } from "./taskGroupJSONable";
-import { Task } from "./task";
+import { TaskGroupJSONable } from "./TaskGroupJSONable";
+import { Task } from "./Task";
 
 export class TaskGroup {
-  // id is number
-  // name is string
+  // taskGroupId is number
+  // taskGroupName is string
   // tasks is a Task array
   // pax is a number
-  constructor(id, name, tasks, pax) {
-    this.id = id;
-    this.name = name;
+  constructor(taskGroupId, taskGroupName, tasks, pax) {
+    this.taskGroupId = taskGroupId;
+    this.taskGroupName = taskGroupName;
     this.tasks = tasks;
     this.pax = pax;
   }
@@ -25,8 +25,8 @@ export class TaskGroup {
       outTasks[i] = this.tasks[i].toJSONable();
     }
     return new TaskGroupJSONable(
-      this.id,
-      this.name,
+      this.taskGroupId,
+      this.taskGroupName,
       outTasks,
       this.pax,
     );
@@ -36,7 +36,7 @@ export class TaskGroup {
     for (let i = 0; i < object.tasks.length; i++) {
       outTasks[i] = Task.fromJSONable(object.tasks[i]);
     }
-    return new TaskGroup(object.id, object.name, outTasks, object.pax);
+    return new TaskGroup(object.taskGroupId, object.taskGroupName, outTasks, object.pax);
   }
   static getArrayWorkload(array) {
     let out = 0;

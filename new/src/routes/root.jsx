@@ -7,10 +7,10 @@ import { useEffect } from "react";
 export default function Root(props) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
-  const user_id = localStorage.getItem("user_id");
+  const personName = localStorage.getItem("personName");
+  const personId = localStorage.getItem("personId");
   useEffect(() => {
-    validateToken(token, navigate, user_id, user, props.toast);
+    validateToken(token, navigate, personId, personName, props.toast);
   }, []);
   return (
     <Box>
@@ -20,11 +20,11 @@ export default function Root(props) {
   );
 }
 
-function validateToken(token, navFn, user_id, username, toastFn) {
-  if (token && username && user_id) {
+function validateToken(token, navFn, personId, personName, toastFn) {
+  if (token && personName && personId) {
     return axios
       .post(import.meta.env.VITE_API_URL + "/validate", {
-        user_id: user_id,
+        personId: personId,
         token: token,
       })
       .catch(function (error) {
@@ -38,7 +38,7 @@ function validateToken(token, navFn, user_id, username, toastFn) {
         navFn("/login");
       });
   } else {
-    if (!(!token && !username && !user_id)) {
+    if (!(!token && !personName && !personId)) {
       toastFn({
         title: "Please log in again.",
         description: "Missing credentials.",

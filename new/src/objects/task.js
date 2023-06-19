@@ -1,32 +1,32 @@
 import { DateTime, Interval } from "luxon";
-import { TaskJSONable } from "./taskJSONable";
+import { TaskJSONable } from "./TaskJSONable";
 
 export class Task {
-  // task_id is a number
+  // taskId is a number
   // interval is a Luxon Interval
-  // user_id is a number
+  // personId is a number
   // isCompleted is a boolean
-  // proj_id is a number
-  // task_priority is a number
-  // group_id is a number
+  // projectId is a number
+  // taskPriority is a number
+  // groupId is a number
   // isAssigned is a boolean
   constructor(
-    task_id,
+    taskId,
     interval,
-    user_id,
+    personId,
     isCompleted,
-    proj_id,
-    task_priority,
-    group_id,
+    projectId,
+    taskPriority,
+    groupId,
     isAssigned
   ) {
-    this.task_id = task_id;
+    this.taskId = taskId;
     this.interval = interval;
-    this.user_id = user_id;
+    this.personId = personId;
     this.isCompleted = isCompleted;
-    this.proj_id = proj_id;
-    this.task_priority = task_priority;
-    this.group_id = group_id;
+    this.projectId = projectId;
+    this.taskPriority = taskPriority;
+    this.groupId = groupId;
     this.isAssigned = isAssigned;
   }
   getInterval() {
@@ -44,26 +44,26 @@ export class Task {
   toJSONable() {
     const outInterval = this.interval.toISO({ suppressSeconds: true });
     return new TaskJSONable(
-      this.task_id,
+      this.taskId,
       outInterval,
-      this.user_id,
+      this.personId,
       this.isCompleted,
-      this.proj_id,
-      this.task_priority,
-      this.group_id,
+      this.projectId,
+      this.taskPriority,
+      this.groupId,
       this.isAssigned
     );
   }
   static fromJSONable(object) {
     const outInterval = Interval.fromISO(object.interval);
     return new Task(
-      object.task_id,
+      object.taskId,
       outInterval,
-      object.user_id,
+      object.personIdid,
       object.isCompleted,
-      object.proj_id,
-      object.task_priority,
-      object.group_id,
+      object.projectId,
+      object.taskPriority,
+      object.groupId,
       object.isAssigned
     );
   }
