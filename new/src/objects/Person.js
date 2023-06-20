@@ -22,7 +22,7 @@ export class Person {
   }
   toJSONable() {
     const outAvails = [];
-    for (let i = 0; i < this.availabilitiess.length; i++) {
+    for (let i = 0; i < this.availabilities.length; i++) {
       outAvails[i] = this.availabilities[i].toJSONable();
     }
     return new PersonJSONable(this.personId, this.personName, outAvails, this.role);
