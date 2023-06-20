@@ -31,7 +31,6 @@ export default function TaskSettings(props) {
     }
   }, [updateEffect]);
   function mapTG(task) {
-    console.log(task.taskId)
     let out;
     if (task.personId > 0) {
       const name = props.proj.people.filter(
@@ -95,7 +94,6 @@ export default function TaskSettings(props) {
             props.proj.taskGroups.length
           ),
         ];
-        setTasks(newTaskGroups.map(mapTG));
         props.update(newTaskGroups);
         onClose();
       })
