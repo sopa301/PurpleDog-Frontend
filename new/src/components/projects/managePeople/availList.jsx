@@ -41,11 +41,11 @@ export default function AvailList(props) {
   const arrayEffect = props.array;
   useEffect(() => {
     if (arrayEffect) {
-      setAvails(arrayEffect.map(mapTasks));
+      setAvails(arrayEffect.map(mapAvails));
     }
   }, [arrayEffect]);
 
-  function mapTasks(avail) {
+  function mapAvails(avail, index) {
     function handleEdit() {
       onOpen();
       setModalSettings(editAvailFn(avail));
