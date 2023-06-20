@@ -68,6 +68,7 @@ export default function TaskSettings(props) {
         groupId: props.taskGroup.taskGroupId,
         pax: values.pax,
         taskArrJSON: outArray,
+        taskGroupName: values.name,
       })
       .then(function (response) {
         toast({
