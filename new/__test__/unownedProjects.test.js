@@ -7,5 +7,5 @@ test('Shows projects correctly', () => {
   const [projs, setProjs] = React.useState();
   render(<UnownedProjects array={projs} setArray={setProjs}/>);
   // not done
-  expect(screen)
+  expect(screen.get)
 })
