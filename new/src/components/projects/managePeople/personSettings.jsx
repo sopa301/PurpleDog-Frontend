@@ -76,7 +76,7 @@ export default function PersonSettings(props) {
       .delete(import.meta.env.VITE_API_URL + "/person", {
         data: {
           personId: props.person.personId,
-          projectId: props.projectId,
+          projectId: props.proj.projectId,
         },
       })
       .then(function (response) {

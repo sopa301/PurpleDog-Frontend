@@ -65,10 +65,9 @@ export default function TaskSettings(props) {
     }
     await axios
       .patch(import.meta.env.VITE_API_URL + "/taskgroup", {
-        taskGroupId: props.taskGroup.taskGroupId,
+        groupId: props.taskGroup.taskGroupId,
         pax: values.pax,
         taskArrJSON: outArray,
-        taskGroupName: values.name,
       })
       .then(function (response) {
         toast({
@@ -113,7 +112,7 @@ export default function TaskSettings(props) {
     await axios
       .delete(import.meta.env.VITE_API_URL + "/taskgroup", {
         data: {
-          taskGroupId: props.taskGroup.taskGroupId,
+          groupId: props.taskGroup.taskGroupId,
         },
       })
       .then(function (response) {
