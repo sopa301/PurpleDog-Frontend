@@ -66,7 +66,7 @@ export default function ManageTasks(props) {
         });
         for (let i = 0; i < array.length; i++) {
           array[i].taskId = response.data.idArray[i];
-          array[i].taskGroupId = response.data.taskGroupId;
+          array[i].groupId = response.data.taskGroupId;
         }
         const newTaskGroup = new TaskGroup(
           response.data.taskGroupId,
