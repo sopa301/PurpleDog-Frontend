@@ -8,7 +8,7 @@ export class Task {
   // isCompleted is a boolean
   // projectId is a number
   // taskPriority is a number
-  // groupId is a number
+  // taskGroupId is a number
   // isAssigned is a boolean
   constructor(
     taskId,
@@ -17,7 +17,7 @@ export class Task {
     isCompleted,
     projectId,
     taskPriority,
-    groupId,
+    taskGroupId,
     isAssigned
   ) {
     this.taskId = taskId;
@@ -26,7 +26,7 @@ export class Task {
     this.isCompleted = isCompleted;
     this.projectId = projectId;
     this.taskPriority = taskPriority;
-    this.groupId = groupId;
+    this.taskGroupId = taskGroupId;
     this.isAssigned = isAssigned;
   }
   getInterval() {
@@ -50,7 +50,7 @@ export class Task {
       this.isCompleted,
       this.projectId,
       this.taskPriority,
-      this.groupId,
+      this.taskGroupId,
       this.isAssigned
     );
   }
@@ -63,7 +63,7 @@ export class Task {
       object.isCompleted,
       object.projectId,
       object.taskPriority,
-      object.groupId,
+      object.taskGroupId,
       object.isAssigned
     );
   }
