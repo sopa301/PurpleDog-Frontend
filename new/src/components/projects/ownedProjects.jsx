@@ -81,7 +81,7 @@ export default function OwnedProjects(props) {
       onOpen();
     }
     return (
-      <ListItem key={proj.projectId}>
+      <ListItem key={proj.projectId} data-testid={"OwnedItem" + proj.projectId}>
         <Card padding="5px">
           <Flex alignItems="center">
             <Container maxWidth="40ch">{proj.projectName}</Container>

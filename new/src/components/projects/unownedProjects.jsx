@@ -1,16 +1,9 @@
 import {
-  ListItem,
   List,
-  Button,
   Box,
-  Flex,
-  Spacer,
-  Card,
-  Container,
   Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Loading from "../custom/loading";
 
 export default function UnownedProjects(props) {
@@ -25,21 +18,11 @@ export default function UnownedProjects(props) {
 
   function mapProjects(proj) {
     return (
-      <ListItem key={proj.projectId}>
-        <Card padding="5px">
-          <Flex alignItems="center">
-            <Container maxWidth="40ch">{proj.projectName}</Container>
-            <Spacer />
-            <Box paddingX="2.5px">
-              <Link to={"./" + proj.projectId}>
-                <Button colorScheme="green" variant="outline">
-                  Open
-                </Button>
-              </Link>
-            </Box>
-          </Flex>
-        </Card>
-      </ListItem>
+      <UnownedItem
+        key={proj.projectId}
+        projectName={proj.projectName}
+        projectId={proj.projectId}
+      />
     );
   }
   return (
