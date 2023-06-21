@@ -10,4 +10,12 @@ export default defineConfig({
     },
   },
   base: "./",
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './__test__/setup.js',
+    coverage: {
+      provider: 'istanbul' // or 'v8'
+    },
+  },
 })
