@@ -156,12 +156,9 @@ export default function TaskMenu(props) {
                         <DateTimeField
                           format="dd/MM/yyyy hh:mm a"
                           onChange={(val) => {
-                            if (!val || !val.target) {
-                              return;
-                            }
                             formik.setFieldValue(
                               "start",
-                              val.target.value,
+                              val,
                               true
                             );
                           }}
@@ -174,10 +171,7 @@ export default function TaskMenu(props) {
                         <DateTimeField
                           format="dd/MM/yyyy hh:mm a"
                           onChange={(val) => {
-                            if (!val || !val.target) {
-                              return;
-                            }
-                            formik.setFieldValue("end", val.target.value, true);
+                            formik.setFieldValue("end", val, true);
                           }}
                           value={formik.values.end}
                           label="End Time"
