@@ -15,7 +15,7 @@ import { Field, Form, Formik } from "formik";
 import axios from "axios";
 import PasswordChecklist from "react-password-checklist";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContext } from "../../main";
+import { ToastContext } from "../../ToastContext";
 
 export default function SignUpComponent(props) {
   const toast = useContext(ToastContext);

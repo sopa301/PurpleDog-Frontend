@@ -10,11 +10,11 @@ import {
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Link, useLoaderData } from "react-router-dom";
-import { ToastContext } from "../../main";
 import ManageTasks from "./manageTasks/manageTasks";
 import Summary from "./summary";
 import ManagePeople from "./managePeople/managePeople";
 import { Project } from "../../objects/Project";
+import { ToastContext } from "../../ToastContext";
 
 export default function ProjectPage(props) {
   const { projectId } = useLoaderData();

@@ -9,10 +9,6 @@ import { BrowserRouter, RouterProvider, createBrowserRouter } from "react-router
 
 const chakraTheme = chakraExtendTheme();
 
-test("If the test environment works", () => {
-  expect(true).toBeTruthy();
-});
-
 test("If it renders properly with an array", () => {
   const projs = [
     { projectName: "p1", projectId: 1 },
@@ -100,21 +96,21 @@ test("If it directs to a page properly", async () => {
   expect(compo.queryByText("You've reached 2!")).toBeTruthy();
 });
 
-test("If it deletes an entry properly", () => {
-  const projs = [
-    { projectName: "p1", projectId: 1 },
-    { projectName: "p2", projectId: 2 },
-  ];
-  const compo = render(
-    <BrowserRouter>
-      <ChakraProvider theme={chakraTheme} resetCSS>
-        <OwnedProjects array={projs} />
-      </ChakraProvider>
-    </BrowserRouter>
-  );
-  expect(compo.queryByText("p1")).toBeTruthy();
-  expect(compo.queryByText("p2")).toBeTruthy();
-  expect(compo.queryByTestId("OwnedItem" + 1)).toBeTruthy();
-  expect(compo.queryByTestId("OwnedItem" + 2)).toBeTruthy();
-  act(); // TODO
-});
+// test("If it deletes an entry properly", () => {
+//   const projs = [
+//     { projectName: "p1", projectId: 1 },
+//     { projectName: "p2", projectId: 2 },
+//   ];
+//   const compo = render(
+//     <BrowserRouter>
+//       <ChakraProvider theme={chakraTheme} resetCSS>
+//         <OwnedProjects array={projs} />
+//       </ChakraProvider>
+//     </BrowserRouter>
+//   );
+//   expect(compo.queryByText("p1")).toBeTruthy();
+//   expect(compo.queryByText("p2")).toBeTruthy();
+//   expect(compo.queryByTestId("OwnedItem" + 1)).toBeTruthy();
+//   expect(compo.queryByTestId("OwnedItem" + 2)).toBeTruthy();
+//   act(); // TODO
+// });

@@ -14,15 +14,15 @@ import CButton from "../../custom/cButton";
 import { useState, useContext } from "react";
 import { Person } from "../../../objects/Person";
 import axios from "axios";
-import { ToastContext } from "../../../main";
 import AvailList from "./availList";
+import { ToastContext } from "../../../ToastContext";
 
 export default function PersonSettings(props) {
   const toast = useContext(ToastContext);
   const [val, setVal] = useState(props.person.role);
   const [avails, setAvails] = useState(props.person.availabilities);
   const [isOwner] = useState(
-    () => props.person.personId.toString() === localStorage.getItem("personId")
+    () => getRole(props.person.personId.toString(), props.proj) === "owner"
   );
   async function setPerm(newVal) {
     if (val === newVal) {
@@ -163,4 +163,12 @@ function getErrorMessage(error) {
   }
   let status = error.response.status;
   return "Unknown error.";
+}
+function getRole(personId, project) {
+  if (!project || !project.people) {
+    return "";
+  }
+  return project.people.filter(
+    (x) => Number(x.personId) === Number(personId)
+  )[0].role;
 }

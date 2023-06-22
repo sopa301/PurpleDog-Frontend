@@ -10,13 +10,8 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import Root from "../../../src/routes/root";
 
 const chakraTheme = chakraExtendTheme();
-
-test("If the test environment works", () => {
-  expect(true).toBeTruthy();
-});
 
 test("If it renders properly with an array", () => {
   const projs = [

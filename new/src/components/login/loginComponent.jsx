@@ -2,7 +2,7 @@ import { Heading, Text, Box } from "@chakra-ui/react";
 import LoginForm from "./loginForm";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { ToastContext } from "../../main";
+import { ToastContext } from "../../ToastContext";
 
 export default function LoginComponent(props) {
   const toast = useContext(ToastContext);

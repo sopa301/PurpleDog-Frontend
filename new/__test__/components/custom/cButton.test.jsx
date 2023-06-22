@@ -2,10 +2,6 @@ import React from "react";
 import { render, fireEvent, cleanup, act } from "@testing-library/react";
 import CButton from "../../../src/components/custom/cButton";
 
-test("If the test environment works", () => {
-  expect(true).toBeTruthy();
-});
-
 test("If it renders properly", () => {
   const compo = render(<CButton content="TEST" onClick={async () => {}} />);
   expect(compo.queryByText("TEST")).toBeTruthy();

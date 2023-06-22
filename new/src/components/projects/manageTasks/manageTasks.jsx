@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from "react";
-import { ToastContext } from "../../../main";
 import { Accordion, Box, Button, Flex, useDisclosure } from "@chakra-ui/react";
 import TaskMenu from "./taskMenu";
 import TaskSettings from "./taskSettings";
@@ -9,6 +8,7 @@ import { Task } from "../../../objects/Task";
 import axios from "axios";
 import CButton from "../../custom/cButton";
 import { Project } from "../../../objects/Project";
+import { ToastContext } from "../../../ToastContext";
 
 export default function ManageTasks(props) {
   const toast = useContext(ToastContext);

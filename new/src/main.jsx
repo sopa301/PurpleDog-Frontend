@@ -5,7 +5,6 @@ import reportWebVitals from "./reportWebVitals";
 import {
   ChakraProvider,
   extendTheme as chakraExtendTheme,
-  createStandaloneToast,
 } from "@chakra-ui/react";
 import {
   ThemeProvider as MaterialThemeProvider,
@@ -26,12 +25,11 @@ import ProjectPage, {
 } from "./components/projects/projectPage";
 import Home from "./routes/home";
 import Tasks from "./routes/tasks";
+import { toast, ToastContainer, ToastContext } from "./ToastContext";
 
 const chakraTheme = chakraExtendTheme();
 const materialTheme = muiCreateTheme();
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const { ToastContainer, toast } = createStandaloneToast();
-export const ToastContext = createContext(toast);
 
 const router = createBrowserRouter([
   {

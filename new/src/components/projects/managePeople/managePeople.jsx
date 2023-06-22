@@ -3,8 +3,8 @@ import { useEffect, useState, useContext } from "react";
 import PersonSettings from "./personSettings";
 import PersonMenu from "./personMenu";
 import axios from "axios";
-import { ToastContext } from "../../../main";
 import { Person } from "../../../objects/Person";
+import { ToastContext } from "../../../ToastContext";
 
 export default function ManagePeople(props) {
   const toast = useContext(ToastContext);

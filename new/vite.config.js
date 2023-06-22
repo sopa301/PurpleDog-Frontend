@@ -17,5 +17,6 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul' // or 'v8'
     },
+    mockReset: true,
   },
 })

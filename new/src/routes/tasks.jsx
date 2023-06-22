@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { ToastContext } from "../main";
 import {
   Accordion,
   AccordionItem,
@@ -15,6 +14,7 @@ import {
 import axios from "axios";
 import Loading from "../components/custom/loading";
 import { TaskGroup } from "../objects/TaskGroup";
+import { ToastContext } from "../ToastContext";
 
 export default function Tasks(props) {
   const toast = useContext(ToastContext);

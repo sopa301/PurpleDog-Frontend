@@ -15,9 +15,9 @@ import { Interval, DateTime } from "luxon";
 import AvailMenu from "./availMenu";
 import { Availability } from "../../../objects/Availability";
 import axios from "axios";
-import { ToastContext } from "../../../main";
 import CButton from "../../custom/cButton";
 import { AvailabilityJSONable } from "../../../objects/AvailabilityJSONable";
+import { ToastContext } from "../../../ToastContext";
 
 export default function AvailList(props) {
   const toast = useContext(ToastContext);
