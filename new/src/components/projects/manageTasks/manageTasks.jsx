@@ -122,9 +122,9 @@ export default function ManageTasks(props) {
         <Box paddingX="2.5px">
           <Button onClick={onOpen}>Add Task</Button>
         </Box>
-        <Box paddingX="2.5px">
+        {/* <Box paddingX="2.5px">
           <CButton content="Auto-Assign" onClick={runAlgo} />
-        </Box>
+        </Box> */}
       </Flex>
       <TaskMenu
         isOpen={isOpen}
