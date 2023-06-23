@@ -8,7 +8,7 @@ export default function Nav(props) {
         <Link to="./tasks">My Tasks</Link>
       </Box>
       <Box paddingX="5px" fontWeight="bold">
-        <Link to="./projects">Projects</Link>
+        <Link to="./projects">All Projects</Link>
       </Box>
     </Stack>
   );

@@ -14,8 +14,8 @@ export default function Banner(props) {
       isClosable: true,
     });
     navigate("/login");
-    localStorage.removeItem("user");
-    localStorage.removeItem("user_id");
+    localStorage.removeItem("personName");
+    localStorage.removeItem("personId");
     localStorage.removeItem("token");
   }
   return (

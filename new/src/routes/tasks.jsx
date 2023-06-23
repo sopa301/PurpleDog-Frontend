@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { ToastContext } from "../main";
 import {
   Accordion,
   AccordionItem,
@@ -14,22 +13,21 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import Loading from "../components/custom/loading";
-import { Task } from "../objects/task";
-import { TaskJSONable } from "../objects/taskJSONable";
-import { TaskGroup } from "../objects/taskGroup";
+import { TaskGroup } from "../objects/TaskGroup";
+import { ToastContext } from "../ToastContext";
 
 export default function Tasks(props) {
   const toast = useContext(ToastContext);
   const [tasks, setTasks] = useState();
   useEffect(() => {
     axios
-      .post(import.meta.env.VITE_API_URL + "/getmytasks", {
-        user_id: localStorage.getItem("user_id"),
+      .post(import.meta.env.VITE_API_URL + "/getMyTasks", {
+        personId: localStorage.getItem("personId"),
       })
       .then(function (response) {
         const data = response.data.tasks.map((x) => {
           return {
-            projName: x.projName,
+            projectName: x.projectName,
             taskGroup: TaskGroup.fromJSONable(x.taskGroup),
           };
         });
@@ -54,16 +52,16 @@ export default function Tasks(props) {
 
   function mapTasks(task) {
     return (
-      <AccordionItem key={task.taskGroup.tasks[0].task_id}>
+      <AccordionItem key={task.taskGroup.tasks[0].taskId}>
         <AccordionButton>
           <Flex w="100%">
-            {task.taskGroup.name}
+            {task.taskGroup.taskGroupName}
             <Spacer />
             <AccordionIcon />
           </Flex>
         </AccordionButton>
         <AccordionPanel>
-          <Text>{task.projName}</Text>
+          <Text>{task.projectName}</Text>
           <Text>{task.taskGroup.tasks[0].getInterval()}</Text>
         </AccordionPanel>
       </AccordionItem>

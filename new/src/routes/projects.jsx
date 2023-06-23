@@ -15,8 +15,8 @@ export default function Projects(props) {
 
   function getData() {
     axios
-      .post(import.meta.env.VITE_API_URL + "/getprojects", {
-        user_id: localStorage.getItem("user_id"),
+      .post(import.meta.env.VITE_API_URL + "/getProjects", {
+        personId: localStorage.getItem("personId"),
       })
       .then(function (response) {
         setOwnArray(response.data.projects.owned);
@@ -25,7 +25,7 @@ export default function Projects(props) {
       .catch(function (error) {
         toastEffect({
           title: "Unable to retrieve data.",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -60,4 +60,14 @@ export default function Projects(props) {
       </Box>
     </Box>
   );
+}
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
+  if (status === 404) {
+    return "User ID not found.";
+  }
+  return "Unknown error.";
 }

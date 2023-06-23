@@ -9,33 +9,29 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { Link, useLoaderData, useNavigate } from "react-router-dom";
-import { ToastContext } from "../../main";
+import { Link, useLoaderData } from "react-router-dom";
 import ManageTasks from "./manageTasks/manageTasks";
 import Summary from "./summary";
 import ManagePeople from "./managePeople/managePeople";
-import { DateTime, Interval } from "luxon";
-import { Project } from "../../objects/project";
-import { Person } from "../../objects/person";
-import { Availability } from "../../objects/availability";
-import { TaskGroup } from "../../objects/taskGroup";
-import { Task } from "../../objects/task";
+import { Project } from "../../objects/Project";
+import { ToastContext } from "../../ToastContext";
 
 export default function ProjectPage(props) {
-  const navigate = useNavigate();
-  const { proj_id } = useLoaderData();
+  const { projectId } = useLoaderData();
   const [proj, setProj] = useState();
   const toast = useContext(ToastContext);
+  const [role, setRole] = useState("");
   useEffect(() => {
     axios
       .post(import.meta.env.VITE_API_URL + "/project", {
-        user_id: localStorage.getItem("user_id"),
-        proj_id: proj_id,
+        personId: localStorage.getItem("personId"),
+        projectId: projectId,
       })
       .then(function (response) {
         if (response.data.project) {
-          setProj(Project.fromJSONable(response.data.project));
-          console.log(response.data.project)
+          const proj = Project.fromJSONable(response.data.project);
+          setProj(proj);
+          setRole(getRole(localStorage.getItem("personId"), proj));
         } else {
           toast({
             title: "Unable to load project.",
@@ -49,7 +45,7 @@ export default function ProjectPage(props) {
       .catch(function (error) {
         toast({
           title: "Unable to load project.",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -72,17 +68,12 @@ export default function ProjectPage(props) {
           `}
         />
         <Tab>Summary</Tab>
-        {getRole(localStorage.getItem("user_id"), proj) === "owner" ||
-        getRole(localStorage.getItem("user_id"), proj) === "editor" ? (
+        {role === "owner" || role === "editor" ? (
           <Tab>Manage Tasks</Tab>
         ) : (
           <div />
         )}
-        {getRole(localStorage.getItem("user_id"), proj) === "owner" ? (
-          <Tab>Manage People</Tab>
-        ) : (
-          <div />
-        )}
+        {role === "owner" ? <Tab>Manage People</Tab> : <div />}
       </TabList>
 
       <TabPanels>
@@ -90,26 +81,37 @@ export default function ProjectPage(props) {
         <TabPanel>
           <Summary proj={proj} />
         </TabPanel>
-        {getRole(localStorage.getItem("user_id"), proj) === "owner" ||
-        getRole(localStorage.getItem("user_id"), proj) === "editor" ? (
+        {role === "owner" || role === "editor" ? (
           <TabPanel>
             <ManageTasks
               proj={proj}
               update={(newTasks) =>
-                setProj(new Project(proj.id, proj.name, proj.people, newTasks))
+                setProj(
+                  new Project(
+                    proj.projectId,
+                    proj.projectName,
+                    proj.people,
+                    newTasks
+                  )
+                )
               }
             />
           </TabPanel>
         ) : (
           <div />
         )}
-        {getRole(localStorage.getItem("user_id"), proj) === "owner" ? (
+        {role === "owner" ? (
           <TabPanel>
             <ManagePeople
               proj={proj}
               update={(newPeople) =>
                 setProj(
-                  new Project(proj.id, proj.name, newPeople, proj.taskGroups)
+                  new Project(
+                    proj.projectId,
+                    proj.projectName,
+                    newPeople,
+                    proj.taskGroups
+                  )
                 )
               }
             />
@@ -123,12 +125,27 @@ export default function ProjectPage(props) {
 }
 
 export async function loader({ params }) {
-  return { proj_id: params.proj_id };
+  return { projectId: params.projectId };
 }
 
-function getRole(user_id, project) {
+function getRole(personId, project) {
   if (!project || !project.people) {
     return "";
   }
-  return project.people.filter((x) => Number(x.id) === Number(user_id))[0].role;
+  return project.people.filter(
+    (x) => Number(x.personId) === Number(personId)
+  )[0].role;
+}
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
+  if (status === 404) {
+    return "Project not found.";
+  }
+  if (status === 403) {
+    return "No view rights.";
+  }
+  return "Unknown error.";
 }

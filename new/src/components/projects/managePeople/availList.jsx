@@ -13,11 +13,11 @@ import {
 } from "@chakra-ui/react";
 import { Interval, DateTime } from "luxon";
 import AvailMenu from "./availMenu";
-import { Availability } from "../../../objects/availability";
+import { Availability } from "../../../objects/Availability";
 import axios from "axios";
-import { ToastContext } from "../../../main";
 import CButton from "../../custom/cButton";
-import { AvailabilityJSONable } from "../../../objects/availabilityJSONable";
+import { AvailabilityJSONable } from "../../../objects/AvailabilityJSONable";
+import { ToastContext } from "../../../ToastContext";
 
 export default function AvailList(props) {
   const toast = useContext(ToastContext);
@@ -41,11 +41,11 @@ export default function AvailList(props) {
   const arrayEffect = props.array;
   useEffect(() => {
     if (arrayEffect) {
-      setAvails(arrayEffect.map(mapTasks));
+      setAvails(arrayEffect.map(mapAvails));
     }
   }, [arrayEffect]);
 
-  function mapTasks(avail) {
+  function mapAvails(avail, index) {
     function handleEdit() {
       onOpen();
       setModalSettings(editAvailFn(avail));
@@ -55,13 +55,12 @@ export default function AvailList(props) {
       await axios
         .delete(import.meta.env.VITE_API_URL + "/avail", {
           data: {
-            avail_id: avail.id,
+            availabilityId: avail.availabilityId,
           },
         })
         .then(function (response) {
           toast({
             title: "Availability removed.",
-            description: "",
             status: "success",
             duration: 1000,
             isClosable: true,
@@ -74,7 +73,7 @@ export default function AvailList(props) {
         .catch(function (error) {
           toast({
             title: "Unable to remove availability.",
-            description: error.toString(),
+            description: getErrorMessage(error),
             status: "error",
             duration: 1000,
             isClosable: true,
@@ -82,7 +81,7 @@ export default function AvailList(props) {
         });
     }
     return (
-      <ListItem key={avail.id}>
+      <ListItem key={avail.availabilityId}>
         <Card paddingY="5px" paddingX="5px">
           <Flex>
             <Container>{avail.toString()}</Container>
@@ -108,14 +107,13 @@ export default function AvailList(props) {
     const interval = Interval.fromDateTimes(values.start, values.end);
     await axios
       .put(import.meta.env.VITE_API_URL + "/avail", {
-        user_id: props.person.id,
-        avail_JSON: new AvailabilityJSONable(null, interval.toISO({ suppressSeconds: true })),
-        project_id: props.project_id,
+        personId: props.person.personId,
+        availabilityJSON: new Availability(null, interval).toJSONable(),
+        projectId: props.projectId,
       })
       .then(function (response) {
         toast({
           title: "Added availability.",
-          description: "",
           status: "success",
           duration: 1000,
           isClosable: true,
@@ -123,13 +121,13 @@ export default function AvailList(props) {
         onClose();
         props.setArray((x) => [
           ...x,
-          new Availability(response.data.avail_id, interval),
+          new Availability(response.data.availabilityId, interval),
         ]);
       })
       .catch(function (error) {
         toast({
           title: "Unable to add availability.",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -141,33 +139,35 @@ export default function AvailList(props) {
     const interval = Interval.fromDateTimes(values.start, values.end);
     await axios
       .patch(import.meta.env.VITE_API_URL + "/avail", {
-        user_id: props.person.id,
-        avail_JSON: new AvailabilityJSONable(activeAvail.current.id, interval.toISO({ suppressSeconds: true })),
-        project_id: props.project_id,
-        avail_id: activeAvail.current.id,
+        personId: props.person.personId,
+        availabilityJSON: new Availability(
+          activeAvail.current.availabilityId,
+          interval
+        ).toJSONable(),
+        projectId: props.projectId,
+        availabilityId: activeAvail.current.availabilityId,
       })
       .then(function (response) {
         toast({
           title: "Edited availability.",
-          description: "",
           status: "success",
           duration: 1000,
           isClosable: true,
         });
         onClose();
         const index = props.array.findIndex(
-          (avail) => avail.id === activeAvail.current.id
+          (avail) => avail.availabilityId === activeAvail.current.availabilityId
         );
         props.setArray([
           ...props.array.slice(0, index),
-          new Availability(activeAvail.current.id, interval),
+          new Availability(activeAvail.current.availabilityId, interval),
           ...props.array.slice(index + 1, props.array.length),
         ]);
       })
       .catch(function (error) {
         toast({
           title: "Unable to edit availability.",
-          description: error.toString(),
+          description: getErrorMessage(error),
           status: "error",
           duration: 1000,
           isClosable: true,
@@ -186,4 +186,11 @@ export default function AvailList(props) {
       </Box>
     </div>
   );
+}
+function getErrorMessage(error) {
+  if (!error.response) {
+    return "Network error.";
+  }
+  let status = error.response.status;
+  return "Unknown error.";
 }

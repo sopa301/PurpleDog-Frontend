@@ -15,7 +15,7 @@ import { Field, Form, Formik } from "formik";
 import axios from "axios";
 import PasswordChecklist from "react-password-checklist";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContext } from "../../main";
+import { ToastContext } from "../../ToastContext";
 
 export default function SignUpComponent(props) {
   const toast = useContext(ToastContext);
@@ -56,7 +56,7 @@ export default function SignUpComponent(props) {
   async function signUpFunction(user, pass) {
     return await axios
       .post(import.meta.env.VITE_API_URL + "/signup", {
-        username: user,
+        personName: user,
         password: pass,
       })
       .then(function (response) {

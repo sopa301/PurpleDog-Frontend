@@ -120,8 +120,11 @@ export default function TaskMenu(props) {
                               }
                             >
                               {props.proj.people.map((person, index) => (
-                                <option key={person.id} value={person.id}>
-                                  {person.name}
+                                <option
+                                  key={person.personId}
+                                  value={person.personId}
+                                >
+                                  {person.personName}
                                 </option>
                               ))}
                             </Select>
@@ -155,13 +158,10 @@ export default function TaskMenu(props) {
                         <FormLabel>Interval</FormLabel>
                         <DateTimeField
                           format="dd/MM/yyyy hh:mm a"
-                          onChange={(val) => {
-                            formik.setFieldValue(
-                              "start",
-                              val,
-                              true
-                            );
-                          }}
+                          onChange={(val) =>
+                            formik.setFieldValue("start", val, true)
+                          }
+
                           value={formik.values.start}
                           label="Start Time"
                         />
@@ -170,9 +170,9 @@ export default function TaskMenu(props) {
                         </div>
                         <DateTimeField
                           format="dd/MM/yyyy hh:mm a"
-                          onChange={(val) => {
-                            formik.setFieldValue("end", val, true);
-                          }}
+                          onChange={(val) =>
+                            formik.setFieldValue("end", val, true)
+                          }
                           value={formik.values.end}
                           label="End Time"
                         />

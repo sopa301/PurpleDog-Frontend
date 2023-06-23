@@ -3,8 +3,8 @@ import { useEffect, useState, useContext } from "react";
 import PersonSettings from "./personSettings";
 import PersonMenu from "./personMenu";
 import axios from "axios";
-import { ToastContext } from "../../../main";
-import { Person } from "../../../objects/person";
+import { Person } from "../../../objects/Person";
+import { ToastContext } from "../../../ToastContext";
 
 export default function ManagePeople(props) {
   const toast = useContext(ToastContext);
@@ -21,7 +21,7 @@ export default function ManagePeople(props) {
   function mapPeople(person, index) {
     return (
       <PersonSettings
-        key={person.id}
+        key={person.personId}
         person={person}
         proj={props.proj}
         update={props.update}
@@ -34,10 +34,10 @@ export default function ManagePeople(props) {
   async function handleSubmit(values, actions) {
     await axios
       .put(import.meta.env.VITE_API_URL + "/person", {
-        username: values.username,
-        proj_id: props.proj.id,
+        personName: values.username,
+        projectId: props.proj.projectId,
         role: values.role,
-        proj_name: props.proj.name,
+        projectName: props.proj.projectName,
       })
       .then(function (response) {
         toast({
@@ -47,7 +47,7 @@ export default function ManagePeople(props) {
           isClosable: true,
         });
         const newPerson = new Person(
-          response.data.user_id,
+          response.data.personId,
           values.username,
           [],
           values.role
