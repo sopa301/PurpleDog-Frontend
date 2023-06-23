@@ -161,6 +161,7 @@ export default function TaskMenu(props) {
                           onChange={(val) =>
                             formik.setFieldValue("start", val, true)
                           }
+
                           value={formik.values.start}
                           label="Start Time"
                         />
