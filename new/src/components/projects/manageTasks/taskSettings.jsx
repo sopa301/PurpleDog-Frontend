@@ -52,7 +52,7 @@ export default function TaskSettings(props) {
     const interval = Interval.fromDateTimes(values.start, values.end);
     for (let i = 0; i < values.assignees.length; i++) {
       array[i] = new Task(
-        props.taskGroup.tasks[i].taskId,
+        null,
         interval,
         values.assignees[i],
         values.completed,
@@ -69,7 +69,7 @@ export default function TaskSettings(props) {
         pax: values.pax,
         taskArrJSON: outArray,
         taskGroupName: values.name,
-        taskIdArr: outArray.map((x) => x.taskId),
+        taskIdArr: props.taskGroup.tasks.map((x) => x.taskId),
         projectId: props.proj.projectId,
       })
       .then(function (response) {
