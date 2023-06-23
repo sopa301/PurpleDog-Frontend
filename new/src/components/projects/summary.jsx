@@ -102,7 +102,7 @@ function mapSummary(obj) {
 function mapTaskGroup(tg) {
   return (
     <Flex key={tg.tasks[0].taskId}>
-      {tg.name}
+      {tg.taskGroupName}
       <Spacer />
       {tg.tasks[0].getInterval()}
     </Flex>
