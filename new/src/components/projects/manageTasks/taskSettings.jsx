@@ -52,7 +52,7 @@ export default function TaskSettings(props) {
     const interval = Interval.fromDateTimes(values.start, values.end);
     for (let i = 0; i < values.assignees.length; i++) {
       array[i] = new Task(
-        null,
+        props.taskGroup.tasks[i].taskId,
         interval,
         values.assignees[i],
         values.completed,
@@ -69,6 +69,8 @@ export default function TaskSettings(props) {
         pax: values.pax,
         taskArrJSON: outArray,
         taskGroupName: values.name,
+        taskIdArr: outArray.map((x) => x.taskId),
+        projectId: props.proj.projectId,
       })
       .then(function (response) {
         toast({
@@ -113,6 +115,8 @@ export default function TaskSettings(props) {
       .delete(import.meta.env.VITE_API_URL + "/taskgroup", {
         data: {
           taskGroupId: props.taskGroup.taskGroupId,
+          taskIdArr: props.taskGroup.tasks.map((x) => x.taskId),
+          projectId: props.proj.projectId,
         },
       })
       .then(function (response) {

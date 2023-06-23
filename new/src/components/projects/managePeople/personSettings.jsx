@@ -22,7 +22,7 @@ export default function PersonSettings(props) {
   const [val, setVal] = useState(props.person.role);
   const [avails, setAvails] = useState(props.person.availabilities);
   const [isOwner] = useState(
-    () => getRole(props.person.personId.toString(), props.proj) === "owner"
+    () => getRole(props.person.personId, props.proj) === "owner"
   );
   async function setPerm(newVal) {
     if (val === newVal) {
@@ -31,7 +31,7 @@ export default function PersonSettings(props) {
       axios
         .patch(import.meta.env.VITE_API_URL + "/person", {
           personId: props.person.personId,
-          projectId: props.projectId,
+          projectId: props.proj.projectId,
           role: newVal,
         })
         .then(function (response) {

@@ -54,7 +54,6 @@ export default function ManagePeople(props) {
         );
         const newPeople = [...props.proj.people, newPerson];
         props.update(newPeople);
-        setPeople(newPeople.map(mapPeople));
         onClose();
       })
       .catch(function (error) {
