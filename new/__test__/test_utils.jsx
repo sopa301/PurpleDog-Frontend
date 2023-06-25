@@ -38,8 +38,11 @@ const AllTheProviders = ({children}) => {
 const customRender = (ui, options) =>
   render(ui, {wrapper: AllTheProviders, ...options})
 
+const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
+
 // re-export everything
 export * from '@testing-library/react'
 
 // override render method
 export {customRender as render}
+export {flushPromises}

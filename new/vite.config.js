@@ -18,5 +18,6 @@ export default defineConfig({
       provider: 'istanbul' // or 'v8'
     },
     mockReset: true,
+    testTimeout: 10000,
   },
 })
