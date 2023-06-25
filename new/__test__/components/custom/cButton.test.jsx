@@ -1,6 +1,7 @@
 import React from "react";
 import { render, fireEvent, cleanup, act } from "@testing-library/react";
 import CButton from "../../../src/components/custom/cButton";
+import { flushPromises } from "../../test_utils";
 
 test("If it renders properly", () => {
   const compo = render(<CButton content="TEST" onClick={async () => {}} />);
@@ -12,7 +13,7 @@ test("If it makes the loading animation during async function execution", async 
     <CButton
       content="TEST"
       onClick={async () => {
-        await new Promise((r) => setTimeout(r, 10));
+        await flushPromises();
       }}
     />
   ); 
@@ -21,6 +22,6 @@ test("If it makes the loading animation during async function execution", async 
     fireEvent.click(compo.queryByText("TEST"));
   });
   expect(compo.queryByText("Loading...")).toBeTruthy();
-  await act(async () => await new Promise((r) => setTimeout(r, 11)));
+  await act(async () => await flushPromises());
   expect(compo.queryByText("Loading...")).toBeFalsy();
 });

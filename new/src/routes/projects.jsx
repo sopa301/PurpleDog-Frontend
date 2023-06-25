@@ -45,7 +45,6 @@ export default function Projects(props) {
             <OwnedProjects
               array={ownArray}
               setArray={setOwnArray}
-              toast={props.toast}
             />
           </GridItem>
           <GridItem paddingX="10px">

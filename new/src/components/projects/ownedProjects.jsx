@@ -11,13 +11,15 @@ import {
   Container,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import CButton from "../custom/cButton";
 import ProjectMenu from "./projectMenu";
 import Loading from "../custom/loading";
+import { ToastContext } from "../../ToastContext";
 
 export default function OwnedProjects(props) {
+  const toast = useContext(ToastContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const editProjFn = (name) => {
     return {
@@ -54,7 +56,7 @@ export default function OwnedProjects(props) {
           },
         })
         .then(function (response) {
-          props.toast({
+          toast({
             title: proj.projectName + " deleted.",
             status: "success",
             duration: 1000,
@@ -66,7 +68,7 @@ export default function OwnedProjects(props) {
           ]);
         })
         .catch(function (error) {
-          props.toast({
+          toast({
             title: "Unable to delete project.",
             description: getErrorMessageDP(error),
             status: "error",
@@ -121,7 +123,7 @@ export default function OwnedProjects(props) {
         projectName: values.name,
       })
       .then(function (response) {
-        props.toast({
+        toast({
           title: values.name + " created.",
           status: "success",
           duration: 1000,
@@ -134,7 +136,7 @@ export default function OwnedProjects(props) {
         ]);
       })
       .catch(function (error) {
-        props.toast({
+        toast({
           title: "Unable to create project.",
           description: getErrorMessageCP(error),
           status: "error",
@@ -154,7 +156,7 @@ export default function OwnedProjects(props) {
         projectName: values.name,
       })
       .then(function (response) {
-        props.toast({
+        toast({
           title: "Changed name of " + oldName + " to " + values.name,
           status: "success",
           duration: 1000,
@@ -171,7 +173,7 @@ export default function OwnedProjects(props) {
         ]);
       })
       .catch(function (error) {
-        props.toast({
+        toast({
           title: "Unable to change project name.",
           description: getErrorMessageEP(error),
           status: "error",
