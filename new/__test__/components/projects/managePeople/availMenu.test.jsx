@@ -1,8 +1,16 @@
 import React from "react";
-import { render } from "../../../test_utils";
+import { fireEvent, render } from "../../../test_utils";
 import { DateTime } from "luxon";
 import AvailMenu from "../../../../src/components/projects/managePeople/availMenu";
 import userEvent from "@testing-library/user-event";
+
+function convertToEnDateTime(dateTime) {
+  return (
+    dateTime.setLocale("en-gb").toLocaleString() +
+    " " +
+    dateTime.toLocaleString(DateTime.TIME_SIMPLE)
+  );
+}
 
 test("If it renders properly", () => {
   const startTime = DateTime.local(1000, 1, 1, 12);
@@ -74,17 +82,13 @@ test("If it submits typed values correctly", async () => {
   };
   const compo = render(<AvailMenu isOpen={true} {...settings} />);
   await userEvent.type(
-    compo.queryAllByDisplayValue("")[0],
-    startTime.setLocale("en-gb").toLocaleString() +
-      " " +
-      startTime.toLocaleString(DateTime.TIME_SIMPLE)
+    compo.queryAllByPlaceholderText("DD/MM/YYYY hh:mm aa")[0],
+    convertToEnDateTime(startTime)
   );
   // The previously first empty field is now no longer empty
   await userEvent.type(
-    compo.queryAllByDisplayValue("")[0],
-    endTime.setLocale("en-gb").toLocaleString() +
-      " " +
-      endTime.toLocaleString(DateTime.TIME_SIMPLE)
+    compo.queryAllByPlaceholderText("DD/MM/YYYY hh:mm aa")[0],
+    convertToEnDateTime(endTime)
   );
   await user.click(compo.queryAllByText("AVAILS")[1]);
 });
