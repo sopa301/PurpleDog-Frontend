@@ -26,8 +26,6 @@ export default function ManagePeople(props) {
         proj={props.proj}
         update={props.update}
         index={index}
-        setPeople={setPeople}
-        mapPeople={mapPeople}
       />
     );
   }
