@@ -5,7 +5,7 @@ import Profile from "../components/profile";
 export default function Home() {
   const [personName] = useOutletContext();
   return (
-    <Box>
+    <Box padding="5px">
       <Heading>Hello, {personName}.</Heading>
       <Profile />
     </Box>
